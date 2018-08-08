@@ -1,0 +1,23 @@
+// Game search form styles
+
+.form {
+
+  &__button {
+    background-color: $background-color;
+    color: $font-color;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    width: 80px;
+  }
+
+  &__button:hover,
+  &__button:active,
+  &__button:focus {
+    background-color: $background-color !important;
+    color: $font-color !important;
+    outline: none !important;
+    box-shadow: none;
+  }
+}

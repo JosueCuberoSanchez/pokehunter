@@ -1,0 +1,27 @@
+// Header styles
+
+footer {
+    background-color: $background-color;
+  }
+
+.navbar {
+
+  &__small-text {
+    font-size: 1rem;
+  }
+
+  &__trainer {
+    width: 10%;
+  }
+}
+
+// Media query for footer responsiveness 
+
+@media screen and (max-width: 1000px) {
+  .navbar {
+
+    &__link {
+      font-size: 1rem;
+    }
+  }
+}

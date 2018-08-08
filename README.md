@@ -1,6 +1,6 @@
 # Pokéhunter
 
-Pokémon hunter to fill pokédex easier.
+Pokémon hunter app to help Pokémon trainers fill their pokédex easier.
 
 ## Getting Started
 
@@ -22,9 +22,13 @@ npm install
 
 ## Built With
 
-* [Boostrap](https://getbootstrap.com/) - The styles library used.
+* [NodeJS](https://reactjs.org/) - Server side scripting used.
 * [React](https://reactjs.org/) - Frontend framework used.
-
+* [Babel](https://reactjs.org/) - ES6 transpiler.
+* [Webpack](https://reactjs.org/) - Bundle tool.
+* [Bootstrap](https://getbootstrap.com/) - The styles library used.
+* [React-Bootstrap-Tables](https://reactjs.org/) - Library for results table used.
+* [Reactstrap](https://reactjs.org/) - React styles library used.
 
 ## Versioning
 
