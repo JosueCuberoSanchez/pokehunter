@@ -25,6 +25,14 @@
   margin-top: 60px;
 }
 
+th, td {
+  text-align: center;
+}
+
+.pokemon-link {
+  color: #000 !important;
+}
+
 // Styles for responsive layout, taken from: https://css-tricks.com/responsive-data-tables/
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {

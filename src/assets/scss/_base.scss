@@ -2,6 +2,7 @@
 
 * {
   border-radius: 0 !important;
+  font-family: 'Montserrat', sans-serif;
 }
 
 ul {
@@ -10,7 +11,7 @@ ul {
 
 a {
   text-decoration: none;
-  color: $font-color !important;
+  font-family: 'Merriweather', serif;
 }
 
 input,
@@ -26,7 +27,7 @@ label {
 }
 
 body {
-  background: url(../../assets/img/content/bg.png) no-repeat;
+  background: url(../../assets/img/content/bg.png) no-repeat fixed;
   background-size: 100% 100%;
   min-height: 100vh;
 }

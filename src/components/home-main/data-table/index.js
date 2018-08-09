@@ -4,15 +4,14 @@
  */
 
 import React, {Component} from 'react';
+import Link from "react-router-dom/es/Link";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 import LoadingScreen from 'react-loading-screen';
-import axios from 'axios';
 
 import Constants from './constants';
 import './data-table.scss';
-
 import silhouette from '../../../assets/img/content/silhouette.png';
 
 const columns = [{
@@ -73,8 +72,18 @@ class DataTable extends Component {
 
     async fetchData() {
 
+        let Pokedex = require('pokeapi-js-wrapper');
+        let options = {
+            protocol: 'https',
+            hostName: 'pokeapi.co:443',
+            versionPath: '/api/v2/',
+            cache: true,
+            timeout: 5 * 1000 // 5s
+        };
+        let P = new Pokedex.Pokedex(options);
         let sprite;
         let name;
+        let nameLink;
         let number;
         let locations;
 
@@ -82,39 +91,46 @@ class DataTable extends Component {
 
             locations = []; //restart locations array
 
-            try {
                 // Basic pokemon info
-                const pokemonJSON = await axios.get(Constants.BASE_URL + Constants.API_URL + Constants.POKEMON + i + Constants.SLASH);
+                const pokemonJSON = await P.getPokemonByName(i);
+                // console.log(pokemonJSON);
 
                 // Get name and pokedex entry
-                name = pokemonJSON.data.name;
-                number = pokemonJSON.data.id;
+                name = pokemonJSON.name.replace(/^\w/, c => c.toUpperCase());
+                nameLink = <Link to={'/pokemon/'+name} className='pokemon-link'>{name}</Link>;
+
+                switch(pokemonJSON.id.toString().length){
+                    case 1:
+                        number = '00'+pokemonJSON.id;
+                        break;
+                    case 2:
+                        number = '0'+pokemonJSON.id;
+                        break;
+                    default:
+                        break;
+                }
 
                 // Pokemon sprite
-                const spritesJSON = await axios.get(pokemonJSON.data.forms[0].url);
-                sprite = <img src={spritesJSON.data.sprites.front_default} className="d-block mx-auto"/>;
+                sprite = <img src={pokemonJSON.sprites.front_default} className="d-block mx-auto"/>;
 
                 // Pokemon locations
-                const encountersJSON = await axios.get(Constants.BASE_URL + pokemonJSON.data.location_area_encounters);
+                const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
 
-                this.fillLocationsArray(locations, encountersJSON.data);
+                this.fillLocationsArray(locations, encountersJSON);
                 this.beautifyLocations(locations);
 
                 // Inject pokemon to table
                 this.state.pokemons.push({
                     sprite: sprite,
-                    name: name,
+                    name: nameLink,
                     number: number,
                     location: locations.join(', ')
                 });
 
                 // Update state
-                if ((i % 5) === 0)
+                if ((i % 10) === 0)
                     this.setState({pokemons: this.state.pokemons, isLoading: false})
-            } catch (error) {
-                console.log("Something went wrong fetching data");
             }
-        }
     };
 
     fillLocationsArray(locations, encountersJSON) {
@@ -127,7 +143,7 @@ class DataTable extends Component {
                     var versionDetail = encounterDetail.version_details[k];
                     if (this.state.game === versionDetail.version.name) {
                         if (!locations.includes(encounterDetail.location_area.name)) {
-                            locations.push(encounterDetail.location_area.name);
+                            locations.push(encounterDetail.location_area.name.replace(/^\w/, c => c.toUpperCase()));
                         }
                     }
                 }
@@ -139,11 +155,12 @@ class DataTable extends Component {
 
     beautifyLocations(locations) {
         const locationsSize = locations.length;
-        if (locationsSize !== 0) {
+        if (locationsSize !== 0 && locations[0] !== 'Location unknown') {
             let location;
             for (let l = 0; l < locationsSize; l++) {
-                location = locations[l].split("-").join(" ");
-                locations[l] = location;
+                location = locations[l].split("-");
+                location.pop();
+                locations[l] = location.join(" ");
             }
         }
     }
@@ -174,6 +191,7 @@ class DataTable extends Component {
                                     <BootstrapTable
                                         {...props.baseProps}
                                         pagination={paginationFactory()}
+                                        striped = {true}
                                     />
                                 </div>
                             )

@@ -15,6 +15,7 @@ import Footer from './components/footer';
 
 // pages
 import Home from './pages/home/';
+import Pokemon from './pages/pokemon/';
 
 const App = () => {
     return (
@@ -22,6 +23,7 @@ const App = () => {
             <div>
                 <Header />
                 <Route exact path='/' component={Home} />
+                <Route exact path='/pokemon/Bulbasaur' component={Pokemon} />
                 <Footer />
             </div>
         </BrowserRouter>
