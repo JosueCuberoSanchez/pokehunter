@@ -1,4 +1,12 @@
+// helpers
+@import '../../../assets/scss/variables';
+
 // Game search form styles
+
+.main {
+  background-color: rgba(245, 245, 245, 0.7);
+  min-height: 81vh;
+}
 
 .form {
 
@@ -20,4 +28,9 @@
     outline: none !important;
     box-shadow: none;
   }
+}
+
+.border-danger::placeholder {
+  color: red;
+  opacity: 1;
 }

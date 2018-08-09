@@ -30,3 +30,10 @@ body {
   background-size: 100% 100%;
   min-height: 100vh;
 }
+
+@media screen and (min-width: 895px) {
+
+  .container {
+    max-width: 95%;
+  }
+}

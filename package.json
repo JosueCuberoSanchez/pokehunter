@@ -20,15 +20,18 @@
   },
   "homepage": "https://github.com/JosueCuberoSanchez/pokehunter#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-loading-screen": "0.0.17",
     "react-router-dom": "^4.3.1",
     "reactstrap": "^6.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^1.0.0",
