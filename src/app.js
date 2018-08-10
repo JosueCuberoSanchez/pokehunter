@@ -6,7 +6,7 @@
 import 'babel-polyfill'; // necessary for async & await
 
 import React from 'react'; //ES6 modules
-import { BrowserRouter, Route} from 'react-router-dom';
+import { HashRouter, Route} from 'react-router-dom';
 
 import './assets/scss/main.scss';
 
@@ -19,14 +19,14 @@ import Pokemon from './pages/pokemon/';
 
 const App = () => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <div>
                 <Header />
                 <Route exact path='/' component={Home} />
-                <Route exact path='/pokemon/Bulbasaur' component={Pokemon} />
+                <Route exact path='/info' component={Pokemon} />
                 <Footer />
             </div>
-        </BrowserRouter>
+        </HashRouter>
     )
 };
 

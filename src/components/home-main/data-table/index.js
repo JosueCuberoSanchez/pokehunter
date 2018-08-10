@@ -97,7 +97,7 @@ class DataTable extends Component {
 
                 // Get name and pokedex entry
                 name = pokemonJSON.name.replace(/^\w/, c => c.toUpperCase());
-                nameLink = <Link to={'/pokemon/'+name} className='pokemon-link'>{name}</Link>;
+                nameLink = <Link to={'/info/?pokemon='+name+'&game='+this.state.game} className='pokemon-link'>{name}</Link>;
 
                 switch(pokemonJSON.id.toString().length){
                     case 1:
@@ -107,6 +107,7 @@ class DataTable extends Component {
                         number = '0'+pokemonJSON.id;
                         break;
                     default:
+                        number = pokemonJSON.id;
                         break;
                 }
 

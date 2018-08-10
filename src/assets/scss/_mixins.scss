@@ -1,0 +1,3 @@
+@mixin sprite($type) {
+   background-position: -1px -8-$type*37px;
+}

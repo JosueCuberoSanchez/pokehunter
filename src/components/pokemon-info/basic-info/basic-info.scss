@@ -1,1 +1,76 @@
+@import '../../../assets/scss/_mixins.scss';
+
 // Basic information styles
+
+p {
+  font-size: 1.2rem;
+}
+
+.basic-info {
+
+  &__row {
+    margin-bottom: 35px;
+  }
+
+  &__sprite {
+    background-image: url(../../../assets/img/content/types.png);
+    display: inline-block;
+    width: 97px;
+    height: 35px;
+  }
+
+  &__sprite--normal {
+    @include sprite(0);
+  }
+  &__sprite--grass {
+    @include sprite(1);
+  }
+  &__sprite--fire {
+    @include sprite(2);
+  }
+  &__sprite--water {
+    @include sprite(3);
+  }
+  &__sprite--fighting {
+    @include sprite(4);
+  }
+  &__sprite--flying {
+    @include sprite(5);
+  }
+  &__sprite--poison {
+    @include sprite(6);
+  }
+  &__sprite--ground {
+    @include sprite(7);
+  }
+  &__sprite--rock {
+    @include sprite(8);
+  }
+  &__sprite--bug {
+    @include sprite(9);
+  }
+  &__sprite--ghost {
+    @include sprite(10);
+  }
+  &__sprite--electric {
+    @include sprite(11);
+  }
+  &__sprite--psychic {
+    @include sprite(12);
+  }
+  &__sprite--ice {
+    @include sprite(13);
+  }
+  &__sprite--dragon {
+    @include sprite(14);
+  }
+  &__sprite--dark {
+    @include sprite(15);
+  }
+  &__sprite--steel {
+    @include sprite(16);
+  }
+  &__sprite--fairy {
+    @include sprite(17);
+  }
+}
