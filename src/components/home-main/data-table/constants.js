@@ -4,7 +4,22 @@ const Constants = {
     POKEMON: 'pokemon/',
     FORM: 'pokemon-form/',
     ENCOUNTERS: 'encounters',
-    SLASH: '/'
+    SLASH: '/',
+    COLUMNS: [{
+        dataField: 'sprite',
+        text: 'Sprite'
+    }, {
+        dataField: 'name',
+        text: 'Name',
+        sort: true
+    }, {
+        dataField: 'number',
+        text: 'Pokédex No.',
+        sort: true
+    }, {
+        dataField: 'location',
+        text: 'Location'
+    }]
 };
 
 export default Constants;

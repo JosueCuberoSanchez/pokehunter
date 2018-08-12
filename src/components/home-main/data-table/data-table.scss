@@ -13,7 +13,9 @@
   border: 1px $border-color solid !important;
 }
 
-.dropdown-toggle {
+.dropdown-toggle,
+.dropdown-item a,
+.page-link {
   color: $font-color !important;
 }
 

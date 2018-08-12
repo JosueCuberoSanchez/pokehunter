@@ -17,17 +17,16 @@ class BasicInfo extends Component {
     }
 
     render() {
-
             return (
             <div className='basic-info'>
                 <h1 className='text-center my-4'>{this.state.props.name}</h1>
-                <div className='basic-info__row'><p><strong>Pokédex No.:</strong> {this.state.props.number}</p></div>
-                <div className='basic-info__row'><p><strong>Pokédex description:</strong> {this.state.props.description}</p></div>
-                <div className='basic-info__row d-flex'><p><strong>Type(s):</strong></p>{this.getTypes()}</div>
-                <div className='basic-info__row'><p><strong>Generation:</strong> {this.state.props.generation}</p></div>
-                <div className='basic-info__row'><p><strong>Height:</strong> {this.state.props.height}</p></div>
-                <div className='basic-info__row'><p><strong>Weight:</strong> {this.state.props.weight}</p></div>
-                <div className='basic-info__row'><p><strong>Locations:</strong> {this.state.props.locations}</p></div>
+                <div className='basic-info__row pl-4'><p><strong>Pokédex No.:</strong> {this.state.props.number}</p></div>
+                <div className='basic-info__row pl-4'><p><strong>Pokédex description:</strong> {this.state.props.description}</p></div>
+                <div className='basic-info__row d-flex pl-4'><p><strong>Type(s):</strong></p>{this.getTypes()}</div>
+                <div className='basic-info__row pl-4'><p><strong>Generation:</strong> {this.state.props.generation}</p></div>
+                <div className='basic-info__row pl-4'><p><strong>Height:</strong> {this.state.props.height}</p></div>
+                <div className='basic-info__row pl-4'><p><strong>Weight:</strong> {this.state.props.weight}</p></div>
+                <div className='basic-info__row pl-4'><p><strong>Locations:</strong> {this.state.props.locations}</p></div>
             </div>
         );
     }

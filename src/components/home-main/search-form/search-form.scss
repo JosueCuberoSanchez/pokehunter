@@ -34,3 +34,12 @@
   color: red;
   opacity: 1;
 }
+
+.dropdown-col {
+  border: 1px solid $border-color;
+}
+
+.dropdown-menu {
+  max-height: 50vh;
+  overflow-x: hidden;
+}
