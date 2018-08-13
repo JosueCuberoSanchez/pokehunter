@@ -35,21 +35,23 @@ export class PokemonContainer extends Component {
     async componentDidMount() {
 
         // pokeapi wrapper variables
-        let Pokedex = require('pokeapi-js-wrapper');
-        let options = {
+        const Pokedex = require('pokeapi-js-wrapper');
+        const options = {
             protocol: 'https',
             hostName: 'pokeapi.co:443',
             versionPath: '/api/v2/',
             cache: true,
             timeout: 5 * 1000 // 5s
         };
-        let P = new Pokedex.Pokedex(options);
+        const P = new Pokedex.Pokedex(options);
 
         try {
             const pokemonJSON = await P.getPokemonByName(this.state.name);
 
-            let sprites = pokemonJSON.sprites;
+            // sprites
+            const sprites = pokemonJSON.sprites;
 
+            // pokedex entry
             let number;
             switch (pokemonJSON.id.toString().length) {
                 case 1:
@@ -65,20 +67,18 @@ export class PokemonContainer extends Component {
 
             const specieJSON = await P.getPokemonSpeciesByName(this.state.name);
 
-            let description = '';
-            for (var j = 0; j < specieJSON.flavor_text_entries.length; j++) {
-                if (specieJSON.flavor_text_entries[j].version.name === this.state.game && specieJSON.flavor_text_entries[j].language.name === 'en')
-                    description = specieJSON.flavor_text_entries[j].flavor_text;
-            }
-
+            // description
+            let description;
+            description = specieJSON.flavor_text_entries.filter(entry => entry.version.name === this.state.game && entry.language.name === 'en')[0].flavor_text;
             if (description === '')
                 description = 'This description is missing in the PokeAPI';
 
-            let types = [];
-            for (var j = 0; j < pokemonJSON.types.length; j++) {
-                types.push(pokemonJSON.types[j].type.name)
-            }
+            // types
+            const types = pokemonJSON.types.map(function(position) {
+                return position.type.name;
+            });
 
+            // generation
             let generationArray = specieJSON.generation.name.split('-');
             let generation = generationArray[0].replace(/^\w/, c => c.toUpperCase());
             switch (generationArray[1]) {
@@ -108,8 +108,8 @@ export class PokemonContainer extends Component {
             // Pokemon locations
             const encountersJSON = await P.resource(Index.BASE_URL + pokemonJSON.location_area_encounters);
             let locations = [];
-            this.fillLocationsArray(locations, encountersJSON);
-            this.beautifyLocations(locations);
+            locations = this.fillLocationsArray(locations, encountersJSON);
+            locations = this.beautifyLocations(locations);
 
             this.setState({
                 isLoading: false,
@@ -156,18 +156,13 @@ export class PokemonContainer extends Component {
             if (locations.length === 0)
                 locations[0] = 'Location unknown';
         }
+        return locations;
     }
 
     beautifyLocations(locations) {
-        const locationsSize = locations.length;
-        if (locationsSize !== 0 && locations[0] !== 'Location unknown') {
-            let location;
-            for (let l = 0; l < locationsSize; l++) {
-                location = locations[l].split("-");
-                location.pop();
-                locations[l] = location.join(" ");
-            }
-        }
+        return locations.map(function(location) {
+            return location.split('-').join(' ');
+        });
     }
 
 
@@ -190,9 +185,9 @@ export class PokemonContainer extends Component {
                     </Container>
                 </main>
             );
-        } else if (this.state.error) {
+        } /*else if (this.state.error) {
             return <Error />
-        }
+        }*/
         return (
             <main>
                 <Container fluid={true} className='pt-4 pb-5'>

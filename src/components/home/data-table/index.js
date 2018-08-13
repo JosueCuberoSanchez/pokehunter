@@ -68,7 +68,7 @@ class DataTable extends Component {
         let locations;
         let limit = this.getPokedexLimit();
 
-        for (let i = 1; i < 41; i++) {
+        for (let i = 1; i < 51; i++) {
 
             locations = []; //restart locations array
 
@@ -99,8 +99,8 @@ class DataTable extends Component {
 
                 // Pokemon locations
                 const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
-                this.fillLocationsArray(locations, encountersJSON);
-                this.beautifyLocations(locations);
+                locations = this.fillLocationsArray(locations, encountersJSON);
+                locations = this.beautifyLocations(locations);
 
                 // Inject pokemon to table
                 this.state.pokemons.push({
@@ -221,18 +221,13 @@ class DataTable extends Component {
             if (locations.length === 0)
                 locations[0] = 'Location unknown';
         }
+        return locations;
     }
 
     beautifyLocations(locations) {
-        const locationsSize = locations.length;
-        if (locationsSize !== 0 && locations[0] !== 'Location unknown') {
-            let location;
-            for (let l = 0; l < locationsSize; l++) {
-                location = locations[l].split("-");
-                location.pop();
-                locations[l] = location.join(" ");
-            }
-        }
+        return locations.map(function(location) {
+            return location.split('-').join(' ');
+        });
     }
 
 }
