@@ -3,46 +3,26 @@
  * @author Josué David Cubero Sánchez.
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 
 import './basic-info.scss';
-import sprite from'../../../assets/img/content/types.png';
 
-class BasicInfo extends Component {
+import { pokemonBasicInfo, pokemonBasicInfoDefault } from '../../../proptypes/index'
 
-    constructor(props) {
-        super(props);
+const BasicInfo = ({pokemonInfo}) => {
 
-        this.state = {props: props};
-    }
-
-    render() {
-            return (
-            <div className='basic-info'>
-                <h1 className='text-center my-4'>{this.state.props.name}</h1>
-                <div className='basic-info__row pl-4'><p><strong>Pokédex No.:</strong> {this.state.props.number}</p></div>
-                <div className='basic-info__row pl-4'><p><strong>Pokédex description:</strong> {this.state.props.description}</p></div>
-                <div className='basic-info__row d-flex pl-4'><p><strong>Type(s):</strong></p>{this.getTypes()}</div>
-                <div className='basic-info__row pl-4'><p><strong>Generation:</strong> {this.state.props.generation}</p></div>
-                <div className='basic-info__row pl-4'><p><strong>Height:</strong> {this.state.props.height}</p></div>
-                <div className='basic-info__row pl-4'><p><strong>Weight:</strong> {this.state.props.weight}</p></div>
-                <div className='basic-info__row pl-4'><p><strong>Locations:</strong> {this.state.props.locations}</p></div>
-            </div>
-        );
-    }
-
-    getTypes() {
+    function getTypes() {
         let types;
-        if(this.state.props.types.length === 1) {
-            types = <div className='ml-3'>{this.getSprite(this.state.props.types[0])}</div>;
+        if(pokemonInfo.types.length === 1) {
+            types = <div className='ml-3'>{getSprite(pokemonInfo.types[0])}</div>;
         } else {
-            types = <div className='ml-3'>{this.getSprite(this.state.props.types[1])} {this.getSprite(this.state.props.types[0])}</div>;
+            types = <div className='ml-3'>{getSprite(pokemonInfo.types[1])} {getSprite(pokemonInfo.types[0])}</div>;
         }
         return types;
     }
 
 
-    getSprite(type){
+    function getSprite(type) {
         let typeSprite;
         switch (type) {
             case 'grass':
@@ -79,7 +59,7 @@ class BasicInfo extends Component {
                 typeSprite = <i className='basic-info__sprite basic-info__sprite--ghost'></i>;
                 break;
             case 'electric':
-                typeSprite = <i className='basic-info__sprite basic-info__sprite--electric'>huee</i>;
+                typeSprite = <i className='basic-info__sprite basic-info__sprite--electric'></i>;
                 break;
             case 'psychic':
                 typeSprite = <i className='basic-info__sprite basic-info__sprite--psychic'></i>;
@@ -102,6 +82,27 @@ class BasicInfo extends Component {
         }
         return typeSprite;
     }
-}
+
+    return (
+        <div className='basic-info'>
+            <h1 className='text-center my-4'>{pokemonInfo.name}</h1>
+            <div className='basic-info__row pl-4'><p><strong>Pokédex No.:</strong> {pokemonInfo.number}</p></div>
+            <div className='basic-info__row pl-4'><p><strong>Pokédex description:</strong> {pokemonInfo.description}</p></div>
+            <div className='basic-info__row d-flex pl-4'><p><strong>Type(s):</strong></p>{getTypes()}</div>
+            <div className='basic-info__row pl-4'><p><strong>Generation:</strong> {pokemonInfo.generation}</p></div>
+            <div className='basic-info__row pl-4'><p><strong>Height:</strong> {pokemonInfo.height}</p></div>
+            <div className='basic-info__row pl-4'><p><strong>Weight:</strong> {pokemonInfo.weight}</p></div>
+            <div className='basic-info__row pl-4'><p><strong>Locations:</strong> {pokemonInfo.locations}</p></div>
+        </div>
+    )
+};
+
+BasicInfo.propTypes = {
+    pokemonInfo: pokemonBasicInfo
+};
+
+BasicInfo.defaultProps = {
+    pokemonInfo: pokemonBasicInfoDefault
+};
 
 export default BasicInfo;

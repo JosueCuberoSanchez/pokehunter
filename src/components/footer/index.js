@@ -19,7 +19,7 @@ const Footer = ()  => {
                     <Container>
                         <Row>
                             <Col xs="12" sm="6" md="6" lg="6" className="d-flex">
-                                <NavbarBrand className="mr-0 navbar__small-text justify-content-center align-self-center" href="#">
+                                <NavbarBrand className="mr-0 navbar__small-text justify-content-center align-self-center" href="https://pokeapi.co/">
                                     <img src={logo} alt="Pokéhunter logo" className="w-50 mr-2"/>
                                     powered by PokéAPI
                                 </NavbarBrand>

@@ -15,8 +15,9 @@ import LoadingScreen from 'react-loading-screen';
 import silhouette from '../../../assets/img/content/silhouette.png';
 
 // Components
-import Constants from './constants';
-import SearchBar from '../search-bar/'
+import Constants from '../../../constants/';
+import SearchBar from '../search-bar/';
+import Error from '../../error/';
 
 // SCSS
 import './data-table.scss';
@@ -56,60 +57,62 @@ class DataTable extends Component {
             hostName: 'pokeapi.co:443',
             versionPath: '/api/v2/',
             cache: true,
-            timeout: 5 * 1000 // 5s
+            timeout: 10 * 1000 // 5s
         };
         let P = new Pokedex.Pokedex(options);
 
         // Variables to inject
         let sprite;
         let name;
-        let nameLink;
         let number;
         let locations;
+        let limit = this.getPokedexLimit();
 
-        for (let i = 1; i < 11; i++) {
+        for (let i = 1; i < 41; i++) {
 
             locations = []; //restart locations array
 
-            // Basic pokemon info
-            const pokemonJSON = await P.getPokemonByName(i);
-            // console.log(pokemonJSON);
+                // Basic pokemon info
+                const pokemonJSON = await P.getPokemonByName(i);
+                // console.log(pokemonJSON);
 
-            // Get name
-            name = pokemonJSON.name.replace(/^\w/, c => c.toUpperCase());
+                // Get name
+                name = pokemonJSON.name;
 
-            // Get pokedex entry
-            switch(pokemonJSON.id.toString().length){
-                case 1:
-                    number = '00'+pokemonJSON.id;
-                    break;
-                case 2:
-                    number = '0'+pokemonJSON.id;
-                    break;
-                default:
-                    number = pokemonJSON.id;
-                    break;
-            }
+                // Get pokedex entry
+                switch (pokemonJSON.id.toString().length) {
+                    case 1:
+                        number = '00' + pokemonJSON.id;
+                        break;
+                    case 2:
+                        number = '0' + pokemonJSON.id;
+                        break;
+                    default:
+                        number = pokemonJSON.id;
+                        break;
+                }
 
-            // Pokemon sprite
-            sprite = <Link to={'/info/?pokemon='+name+'&game='+this.state.game} className='pokemon-link'><img src={pokemonJSON.sprites.front_default} className="d-block mx-auto"/></Link>
+                // Pokemon sprite
+                sprite = <Link to={'/info/' + name + '/' + this.state.game} className='pokemon-link'><img
+                    src={pokemonJSON.sprites.front_default} className="d-block mx-auto"/></Link>;
+                name = name.replace(/^\w/, c => c.toUpperCase());
 
-            // Pokemon locations
-            const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
-            this.fillLocationsArray(locations, encountersJSON);
-            this.beautifyLocations(locations);
+                // Pokemon locations
+                const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
+                this.fillLocationsArray(locations, encountersJSON);
+                this.beautifyLocations(locations);
 
-            // Inject pokemon to table
-            this.state.pokemons.push({
-                sprite: sprite,
-                name: name,
-                number: number,
-                location: locations.join(', ')
-            });
+                // Inject pokemon to table
+                this.state.pokemons.push({
+                    sprite: sprite,
+                    name: name,
+                    number: number,
+                    location: locations.join(', ')
+                });
 
-            // Update state
-            if ((i % 10) === 0)
-                this.setState({pokemons: this.state.pokemons, isLoading: false})
+                // Update state
+                if ((i % 10) === 0)
+                    this.setState({pokemons: this.state.pokemons, isLoading: false})
         }
     }
 
@@ -128,6 +131,8 @@ class DataTable extends Component {
                     <div/>
                 </LoadingScreen>
             );
+        } else if (this.state.error) {
+            return <Error />
         }
         return (
             <div>
@@ -150,6 +155,52 @@ class DataTable extends Component {
                 </section>
             </div>
         );
+    }
+
+    getPokedexLimit() {
+        let limit;
+        switch (this.state.game) {
+            case 'red':
+            case 'blue':
+            case 'yellow':
+                limit = 151;
+                break;
+            case 'gold':
+            case 'silver':
+            case 'crystal':
+                limit = 251;
+                break;
+            case 'ruby':
+            case 'sapphire':
+            case 'firered':
+            case 'leafgreen':
+                limit = 439;
+                break;
+            case 'diamond':
+            case 'pearl':
+            case 'platinum':
+                limit = 507;
+                break;
+            case 'white':
+            case 'black':
+            case 'white-2':
+            case 'black-2':
+                limit = 651;
+                break;
+            case 'x':
+            case 'y':
+            case 'alpha-sapphire':
+            case 'omega-ruby':
+                limit = 721;
+                break;
+            case 'moon':
+            case 'sun':
+            case 'ultramoon':
+            case 'ultrasun':
+                limit = 807;
+                break;
+        }
+        return limit;
     }
 
     fillLocationsArray(locations, encountersJSON) {

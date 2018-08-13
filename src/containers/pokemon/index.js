@@ -7,12 +7,12 @@
 import React, { Component } from 'react';
 import { Row, Col, Container} from 'reactstrap';
 import LoadingScreen from "react-loading-screen";
-const queryString = require('query-string');
 
 // Components
 import CustomCarousel from "../../components/pokemon-info/custom-carousel";
 import BasicInfo from '../../components/pokemon-info/basic-info/';
-import Constants from "../../components/home-main/data-table/constants";
+import Index from "../../constants/index";
+import Error from '../../components/error/';
 
 // SCSS
 import './pokemon.scss';
@@ -25,9 +25,11 @@ export class PokemonContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {  pokemon: queryString.parse(props.props.location.search).pokemon, game: queryString.parse(props.props.location.search).game,
-                        isLoading: true, name:'', number:'', height:'', weight:'', frontDefault:'', backDefault:'', frontShiny:'', backShiny:'',
-                        types:[], generation:'', description:'', locations: []}
+        this.state = {  name: this.props.props.match.params.name, game: this.props.props.match.params.game, isLoading: true,
+                        info: {name:'', number:'', height:'', weight:'', types:[], generation:'', description:'', locations: []},
+                        sprites:{frontDefault:'', backDefault:'', frontShiny:'', backShiny:''},
+                        error: null
+        }
     }
 
     async componentDidMount() {
@@ -43,75 +45,97 @@ export class PokemonContainer extends Component {
         };
         let P = new Pokedex.Pokedex(options);
 
-        let name = this.state.pokemon.toLowerCase();
-        const pokemonJSON = await P.getPokemonByName(name);
+        try {
+            const pokemonJSON = await P.getPokemonByName(this.state.name);
 
-        let sprites = pokemonJSON.sprites;
+            let sprites = pokemonJSON.sprites;
 
-        let number;
-        switch(pokemonJSON.id.toString().length){
-            case 1:
-                number = '00'+pokemonJSON.id;
-                break;
-            case 2:
-                number = '0'+pokemonJSON.id;
-                break;
-            default:
-                number = pokemonJSON.id;
-                break;
+            let number;
+            switch (pokemonJSON.id.toString().length) {
+                case 1:
+                    number = '00' + pokemonJSON.id;
+                    break;
+                case 2:
+                    number = '0' + pokemonJSON.id;
+                    break;
+                default:
+                    number = pokemonJSON.id;
+                    break;
+            }
+
+            const specieJSON = await P.getPokemonSpeciesByName(this.state.name);
+
+            let description = '';
+            for (var j = 0; j < specieJSON.flavor_text_entries.length; j++) {
+                if (specieJSON.flavor_text_entries[j].version.name === this.state.game && specieJSON.flavor_text_entries[j].language.name === 'en')
+                    description = specieJSON.flavor_text_entries[j].flavor_text;
+            }
+
+            if (description === '')
+                description = 'This description is missing in the PokeAPI';
+
+            let types = [];
+            for (var j = 0; j < pokemonJSON.types.length; j++) {
+                types.push(pokemonJSON.types[j].type.name)
+            }
+
+            let generationArray = specieJSON.generation.name.split('-');
+            let generation = generationArray[0].replace(/^\w/, c => c.toUpperCase());
+            switch (generationArray[1]) {
+                case 'i':
+                    generation += ' 1 (Kanto)';
+                    break;
+                case 'ii':
+                    generation += ' 2 (Johto)';
+                    break;
+                case 'iii':
+                    generation += ' 3 (Hoenn)';
+                    break;
+                case 'iv':
+                    generation += ' 4 (Sinnoh)';
+                    break;
+                case 'v':
+                    generation += ' 5 (Unova)';
+                    break;
+                case 'vi':
+                    generation += ' 6 (Kalos)';
+                    break;
+                case 'vii':
+                    generation += ' 7 (Alola)';
+                    break;
+            }
+
+            // Pokemon locations
+            const encountersJSON = await P.resource(Index.BASE_URL + pokemonJSON.location_area_encounters);
+            let locations = [];
+            this.fillLocationsArray(locations, encountersJSON);
+            this.beautifyLocations(locations);
+
+            this.setState({
+                isLoading: false,
+                info: {
+                    name: this.state.name.replace(/^\w/, c => c.toUpperCase()),
+                    number: number,
+                    height: pokemonJSON.height,
+                    weight: pokemonJSON.weight,
+                    types: types,
+                    generation: generation,
+                    description: description,
+                    locations: locations.join(', ')
+                },
+                sprites: {
+                    frontDefault: sprites.front_default,
+                    backDefault: sprites.back_default,
+                    backShiny: sprites.back_shiny,
+                    frontShiny: sprites.front_shiny
+                }
+            });
+        } catch (error) {
+            this.setState({
+                error,
+                isLoading: false
+            })
         }
-
-        const specieJSON = await P.getPokemonSpeciesByName(name);
-
-        let description = '';
-        for (var j = 0; j < specieJSON.flavor_text_entries.length; j++) {
-            if (specieJSON.flavor_text_entries[j].version.name === this.state.game && specieJSON.flavor_text_entries[j].language.name === 'en')
-                description = specieJSON.flavor_text_entries[j].flavor_text;
-        }
-
-        if(description === '')
-            description = 'This description is missing in the PokeAPI :(';
-
-        let types = [];
-        for (var j = 0; j < pokemonJSON.types.length; j++) {
-            types.push(pokemonJSON.types[j].type.name)
-        }
-
-        let generationArray = specieJSON.generation.name.split('-');
-        let generation = generationArray[0].replace(/^\w/, c => c.toUpperCase());
-        switch (generationArray[1]) {
-            case 'i':
-                generation += ' 1 (Kanto)';
-                break;
-            case 'ii':
-                generation += ' 2 (Johto)';
-                break;
-            case 'iii':
-                generation += ' 3 (Hoenn)';
-                break;
-            case 'iv':
-                generation += ' 4 (Sinnoh)';
-                break;
-            case 'v':
-                generation += ' 5 (Unova)';
-                break;
-            case 'vi':
-                generation += ' 6 (Kalos)';
-                break;
-            case 'vii':
-                generation += ' 7 (Alola)';
-                break;
-        }
-
-        // Pokemon locations
-        const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
-        let locations = [];
-        this.fillLocationsArray(locations, encountersJSON);
-        this.beautifyLocations(locations);
-
-        this.setState({isLoading: false, name: this.state.pokemon, number: number, height: pokemonJSON.height, weight: pokemonJSON.weight,
-                       frontDefault: sprites.front_default, backDefault: sprites.back_default, backShiny: sprites.back_shiny,
-                       frontShiny: sprites.front_shiny, types: types, generation: generation, description: description, locations: locations.join(', ')})
     }
 
     fillLocationsArray(locations, encountersJSON) {
@@ -166,6 +190,8 @@ export class PokemonContainer extends Component {
                     </Container>
                 </main>
             );
+        } else if (this.state.error) {
+            return <Error />
         }
         return (
             <main>
@@ -173,12 +199,10 @@ export class PokemonContainer extends Component {
                     <Container className='main'>
                         <Row>
                             <Col xs='12' sm='12' md='7' lg='7' className='px-0'>
-                                <BasicInfo name={this.state.name} number={this.state.number} generation={this.state.generation}
-                                           description={this.state.description} weight={this.state.weight} height={this.state.height}
-                                           types={this.state.types} locations={this.state.locations}/>
+                                <BasicInfo pokemonInfo={this.state.info}/>
                             </Col>
                             <Col xs='12' sm='12' md='5' lg='5' className='px-5'>
-                                <CustomCarousel sprites={[this.state.frontDefault, this.state.backDefault, this.state.frontShiny, this.state.backShiny]} />
+                                <CustomCarousel pokemonSprites={this.state.sprites} />
                             </Col>
                         </Row>
                     </Container>

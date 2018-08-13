@@ -38,3 +38,7 @@ body {
     max-width: 95%;
   }
 }
+
+.sk-spinner > div {
+  background-color: $font-color !important;
+}
