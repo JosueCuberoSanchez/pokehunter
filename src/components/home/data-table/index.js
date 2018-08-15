@@ -22,6 +22,9 @@ import Error from '../../error/';
 // SCSS
 import './data-table.scss';
 
+// Redux
+import { connect } from 'react-redux';
+
 class DataTable extends Component {
 
     constructor(props) {
@@ -68,11 +71,11 @@ class DataTable extends Component {
         let locations;
         let limit = this.getPokedexLimit();
 
-        for (let i = 1; i < 51; i++) {
+        for (let i = 1; i < 61; i++) {
 
             locations = []; //restart locations array
 
-                // Basic pokemon info
+                // Basic pokemon-basic-info info
                 const pokemonJSON = await P.getPokemonByName(i);
                 // console.log(pokemonJSON);
 
@@ -102,12 +105,12 @@ class DataTable extends Component {
                 locations = this.fillLocationsArray(locations, encountersJSON);
                 locations = this.beautifyLocations(locations);
 
-                // Inject pokemon to table
+                // Inject pokemon-basic-info to table
                 this.state.pokemons.push({
                     sprite: sprite,
                     name: name,
                     number: number,
-                    location: locations.join(', ')
+                    location: locations
                 });
 
                 // Update state
@@ -227,9 +230,23 @@ class DataTable extends Component {
     beautifyLocations(locations) {
         return locations.map(function(location) {
             return location.split('-').join(' ');
-        });
+        }).join(', ');
     }
 
 }
 
+const mapStateToProps = state => ({
+    pokemons: state.pokemons,
+    isLoading: state.isLoading,
+    error: state.error,
+    game: state.game
+});
+
+const mapDispatchToProps = dispatch => ({
+    getAllDocuments:() => dispatch({
+        type: 'GET_POKEMON_REQUEST'
+    })
+});
+
 export default DataTable;
+//export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

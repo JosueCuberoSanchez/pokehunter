@@ -35,3 +35,15 @@ export const pokemonSpritesDefault = {
     frontShiny: '',
     backShiny: ''
 };
+
+export const pokemonAsideInfo = PropTypes.shape({
+    baseExperience: PropTypes.number.isRequired,
+    baseHappiness: PropTypes.number.isRequired,
+    habitat: PropTypes.string.isRequired,
+});
+
+export const pokemonAsideInfoDefault = {
+    baseExperience: '',
+    baseHappiness: '',
+    habitat: '',
+};

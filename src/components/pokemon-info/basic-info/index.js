@@ -90,8 +90,8 @@ const BasicInfo = ({pokemonInfo}) => {
             <div className='basic-info__row pl-4'><p><strong>Pokédex description:</strong> {pokemonInfo.description}</p></div>
             <div className='basic-info__row d-flex pl-4'><p><strong>Type(s):</strong></p>{getTypes()}</div>
             <div className='basic-info__row pl-4'><p><strong>Generation:</strong> {pokemonInfo.generation}</p></div>
-            <div className='basic-info__row pl-4'><p><strong>Height:</strong> {pokemonInfo.height}</p></div>
-            <div className='basic-info__row pl-4'><p><strong>Weight:</strong> {pokemonInfo.weight}</p></div>
+            <div className='basic-info__row pl-4'><p><strong>Height:</strong> {pokemonInfo.height/10} m</p></div>
+            <div className='basic-info__row pl-4'><p><strong>Weight:</strong> {pokemonInfo.weight/10} kg</p></div>
             <div className='basic-info__row pl-4'><p><strong>Locations:</strong> {pokemonInfo.locations}</p></div>
         </div>
     )

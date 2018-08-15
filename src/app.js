@@ -7,6 +7,8 @@ import 'babel-polyfill'; // necessary for async & await
 
 import React from 'react'; //ES6 modules
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 import './assets/scss/main.scss';
 
@@ -19,16 +21,18 @@ import Pokemon from './pages/pokemon/';
 
 const App = () => {
     return (
-        <BrowserRouter>
-            <div>
-                <Header />
-                <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route exact path='/info/:name/:game' component={Pokemon} />
-                </Switch>
-                <Footer />
-            </div>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <div>
+                    <Header />
+                    <Switch>
+                        <Route exact path='/' component={Home} />
+                        <Route exact path='/info/:name/:game' component={Pokemon} />
+                    </Switch>
+                    <Footer />
+                </div>
+            </BrowserRouter>
+        </Provider>
     )
 };
 

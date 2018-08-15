@@ -1,0 +1,13 @@
+// Aside information styles
+
+p {
+  font-size: 1.2rem;
+}
+
+.aside-info {
+  margin-top: 40px;
+
+  &__row {
+    margin-bottom: 35px;
+  }
+}
