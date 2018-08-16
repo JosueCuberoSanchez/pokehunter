@@ -16,7 +16,7 @@ class Pokemon extends Component {
     }
 
     componentWillReceiveProps(nextState) {
-        if(nextState.match.params.name !== this.state.props.match.params.name) {
+        if(nextState.match.params.name !== this.state.props.match.params.name) { // if link changed set state and re-render container
             this.setState({props: nextState});
         }
     }

@@ -44,13 +44,13 @@ class DataTable extends Component {
     componentWillReceiveProps(nextProps) { //checks if the state change is a game change or a browser back change.
         if(this.state.game !== nextProps.game) {
             this.setState({game: nextProps.game, pokemons: nextProps.pokemons, isLoading: nextProps.isLoading});
-        } else if(this.state.pokemons !== nextProps.pokemons) {
+        } else if(this.state.pokemons !== nextProps.pokemons) { // this link vs next link
             this.setState({pokemons: nextProps.pokemons, isLoading: nextProps.isLoading});
         }
     }
 
     componentDidMount() {
-        this.state.fillDataTable({game: this.state.game});
+        this.state.fillDataTable({game: this.state.game}); // fill table
     }
 
     render() {

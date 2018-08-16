@@ -87,9 +87,11 @@ class Home extends Component {
 
     changeValue = (e) => { // change dropDown value when user selects a game
         let game = e.currentTarget.textContent.toString(); // get the game
-        let gameForProps = game.toLowerCase().replace(/\s/g, "-"); // pass the game on lower case to Redux state
-        this.props.fillDataTable(gameForProps); // Redux action
-        this.setState({dropDownValue: game, viewTable: true}); // Render table
+        if(this.state.dropDownValue !== game) { // if the user chose the same game, do not render again...
+            let gameForProps = game.toLowerCase().replace(/\s/g, "-"); // pass the game on lower case to Redux state
+            this.props.fillDataTable(gameForProps); // Redux action
+            this.setState({dropDownValue: game, viewTable: true}); // Render table
+        }
     };
 
 }

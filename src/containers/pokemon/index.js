@@ -44,7 +44,7 @@ export class PokemonContainer extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({isLoading: false});
-        if(this.state.name !== nextProps.params.name) {
+        if(this.state.name !== nextProps.params.name) { // if link changed re-render
             this.setState({name: nextProps.params.name});
             this.props.fetchPokemon(nextProps.params.name, this.state.game);
         }

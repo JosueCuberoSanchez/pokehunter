@@ -160,34 +160,6 @@ export const fetchPokemon = (name, game) => {
             name = name.replace(/^\w/, c => c.toUpperCase());
             const habitat = specieJSON.habitat.name.replace(/^\w/, c => c.toUpperCase());
 
-            /*fillBasicInfo({
-                name: name,
-                number: number,
-                height: pokemonJSON.height,
-                weight: pokemonJSON.weight,
-                types: types,
-                generation: generation,
-                description: description,
-                locations: locations
-            }); // Redux action
-            fillAsideInfo({
-                baseExperience: pokemonJSON.base_experience,
-                baseHappiness: specieJSON.base_happiness,
-                habitat: habitat
-            }); // Redux action
-            fillSprites({
-                frontDefault: sprites.front_default,
-                backDefault: sprites.back_default,
-                backShiny: sprites.back_shiny,
-                frontShiny: sprites.front_shiny
-            }); // Redux action
-            fillEvolutionChain({
-                first: evolutionInfo.first,
-                second: evolutionInfo.second,
-                third: evolutionInfo.third,
-                game: game
-            }); // Redux action*/
-
             // Update payload in reducer on success
             dispatch({
                 type: t.GET_POKEMON_SUCCESS,

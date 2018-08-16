@@ -1,9 +1,10 @@
+// Fill the locations for a given pokemon
 export function fillLocationsArray(encountersJSON, game) {
     let locations = [];
     if (encountersJSON.length === 0) {
         locations[0] = 'Location unknown';
     } else {
-        for (var j = 0; j < encountersJSON.length; j++) {
+        for (var j = 0; j < encountersJSON.length; j++) { // iterate and find locations for the given game
             var encounterDetail = encountersJSON[j];
             for (var k = 0; k < encounterDetail.version_details.length; k++) {
                 var versionDetail = encounterDetail.version_details[k];
@@ -20,12 +21,14 @@ export function fillLocationsArray(encountersJSON, game) {
     return locations;
 }
 
+// Beautify the locations array
 export function beautifyLocations(locations) {
     return locations.map(function(location) {
         return location.split('-').join(' ');
     }).join(', ');
 }
 
+// Get the pokedex limit
 export function getPokedexLimit(game) {
     let limit;
     switch (game) {
@@ -66,12 +69,14 @@ export function getPokedexLimit(game) {
     return limit;
 }
 
+// Get the evolution info
 export async function getEvolutionInfo(evolutionJSON, P) {
     const first = await getFirstPokemon(evolutionJSON, P);
     const last = await getLastPokemons(evolutionJSON, P);
     return {first: first, second: last.second, third: last.third}; // the object to be setted on the state
 }
 
+// Get the first pokemon
 async function getFirstPokemon(evolutionJSON, P) {
     const name = evolutionJSON.chain.species.name;
     const speciesJSON = await P.getPokemonByName(name);
@@ -79,6 +84,7 @@ async function getFirstPokemon(evolutionJSON, P) {
     return {name: name.replace(/^\w/, c => c.toUpperCase()), sprite: sprite};
 }
 
+// Get second and third evolutions
 async function getLastPokemons(evolutionJSON, P) {
     let secondEvolutionArray = [];
     let thirdEvolutionArray = [];
@@ -108,6 +114,7 @@ async function getLastPokemons(evolutionJSON, P) {
     return {second: secondEvolutionArray, third: thirdEvolutionArray};
 }
 
+// Get the third evolution, if applies
 async function getThirdPokemon(evolutionJSON, P) {
     const name = evolutionJSON.species.name;
     const speciesJSON = await P.getPokemonByName(name);
@@ -116,6 +123,7 @@ async function getThirdPokemon(evolutionJSON, P) {
     return {name: name.replace(/^\w/, c => c.toUpperCase()), sprite: sprite, trigger: trigger};
 }
 
+// Get evolution trigger
 function getEvolutionTrigger(evolution) {
     let trigger = '';
     let level = 'up';
