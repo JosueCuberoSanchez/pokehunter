@@ -6,13 +6,13 @@
 import React, {Component} from 'react';
 import { Label, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
-import DataTable from '../data-table/';
+import DataTable from '../../../containers/data-table/index';
 import { connect } from "react-redux";
-import { fillTable } from "../../redux/actions/";
+import { fillTable } from "../../../redux/actions/index";
 
 import './home.scss';
 
-class HomeContainer extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
 
@@ -64,11 +64,6 @@ class HomeContainer extends Component {
                         <DropdownItem divider />
                         <DropdownItem onClick={this.changeValue}>X</DropdownItem>
                         <DropdownItem onClick={this.changeValue}>Y</DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={this.changeValue}>Sun</DropdownItem>
-                        <DropdownItem onClick={this.changeValue}>Moon</DropdownItem>
-                        <DropdownItem onClick={this.changeValue}>UltraSun</DropdownItem>
-                        <DropdownItem onClick={this.changeValue}>UltraMoon</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 {
@@ -101,4 +96,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(HomeContainer);
+export default connect(null, mapDispatchToProps)(Home);

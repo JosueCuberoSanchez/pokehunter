@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 
-import HomeContainer from '../../containers/home/';
+import HomeContainer from '../../components/home/home/';
 
 class Home extends Component {
     render () {

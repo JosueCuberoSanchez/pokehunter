@@ -26,10 +26,10 @@ import './pokemon.scss';
 
 // Images
 import silhouette from "../../assets/img/content/silhouette.png";
-import * as actions from "../../redux/actions";
 
 // Redux
 import connect from "react-redux/es/connect/connect";
+import * as actions from "../../redux/actions";
 
 export class PokemonContainer extends Component {
 
@@ -43,14 +43,25 @@ export class PokemonContainer extends Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.fetchData(this.state.name);
+    }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('hola cambio')
+        console.log(nextProps)
+        //this.setState({name: nextProps.props.match.params.name, game: nextProps.props.match.params.game, isLoading: true, error: false});
+        //console.log(this.state.name)
+        this.fetchData(nextProps.props.match.params.name);
+    }
+
+    async fetchData(name) {
         // pokeapi wrapper variables
         const Pokedex = require('pokeapi-js-wrapper');
         const P = new Pokedex.Pokedex(Constants.POKEDEX_OPTIONS);
 
         try {
-            const pokemonJSON = await P.getPokemonByName(this.state.name);
+            const pokemonJSON = await P.getPokemonByName(name);
 
             // sprites
             const sprites = pokemonJSON.sprites;
@@ -69,7 +80,7 @@ export class PokemonContainer extends Component {
                     break;
             }
 
-            const specieJSON = await P.getPokemonSpeciesByName(this.state.name);
+            const specieJSON = await P.getPokemonSpeciesByName(name);
 
             // description
             let description;
@@ -118,7 +129,7 @@ export class PokemonContainer extends Component {
             const evolutionInfo = await getEvolutionInfo(evolutionsJSON, P);
 
             this.props.fillBasicInfo({
-                name: this.state.name.replace(/^\w/, c => c.toUpperCase()),
+                name: name.replace(/^\w/, c => c.toUpperCase()),
                 number: number,
                 height: pokemonJSON.height,
                 weight: pokemonJSON.weight,
@@ -142,9 +153,10 @@ export class PokemonContainer extends Component {
                 first: evolutionInfo.first,
                 second: evolutionInfo.second,
                 third: evolutionInfo.third,
+                game: this.state.game
             }); // Redux action
 
-            this.setState({isLoading: false});
+            this.setState({isLoading: false, name: name});
 
         } catch (error) {
             this.setState({

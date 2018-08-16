@@ -3,7 +3,8 @@ import * as a from '../../actions/types';
 const INITIAL_STATE = {
     first: {},
     second:[],
-    third: []
+    third: [],
+    game: ''
 };
 
 function EvolutionChainReducer(state = INITIAL_STATE, action) {
@@ -13,7 +14,8 @@ function EvolutionChainReducer(state = INITIAL_STATE, action) {
             return { ...state,
                 first: action.payload.first,
                 second: action.payload.second,
-                third: action.payload.third
+                third: action.payload.third,
+                game: action.payload.game
             };
         case a.GET_EVOLUTION_CHAIN_SUCCESS:
             //console.log('get succ');
