@@ -73,7 +73,6 @@ class DataTable extends Component {
 
                 // Basic pokemon-basic-info info
                 const pokemonJSON = await P.getPokemonByName(i);
-                // console.log(pokemonJSON);
 
                 // Get name
                 name = pokemonJSON.name;
@@ -97,9 +96,7 @@ class DataTable extends Component {
                 name = name.replace(/^\w/, c => c.toUpperCase());
 
                 // Pokemon locations
-                // console.log(name + ' ' + Constants.BASE_URL + pokemonJSON.location_area_encounters)
                 const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
-                // console.log(this.state.game + ' search');
                 locations = fillLocationsArray(encountersJSON, this.state.game);
                 locations = beautifyLocations(locations);
 

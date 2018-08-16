@@ -48,10 +48,6 @@ export class PokemonContainer extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('hola cambio')
-        console.log(nextProps)
-        //this.setState({name: nextProps.props.match.params.name, game: nextProps.props.match.params.game, isLoading: true, error: false});
-        //console.log(this.state.name)
         this.fetchData(nextProps.props.match.params.name);
     }
 
@@ -114,9 +110,6 @@ export class PokemonContainer extends Component {
                     break;
                 case 'vi':
                     generation += ' 6 (Kalos)';
-                    break;
-                case 'vii':
-                    generation += ' 7 (Alola)';
                     break;
             }
 

@@ -62,12 +62,6 @@ export function getPokedexLimit(game) {
         case 'omega-ruby':
             limit = 721;
             break;
-        case 'moon':
-        case 'sun':
-        case 'ultramoon':
-        case 'ultrasun':
-            limit = 807;
-            break;
     }
     return limit;
 }

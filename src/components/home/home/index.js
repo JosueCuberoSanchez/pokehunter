@@ -28,6 +28,14 @@ class Home extends Component {
         this.changeValue = this.changeValue.bind(this);
     }
 
+    componentDidMount() {
+        const prevTableState = this.props.tableState;
+        if(prevTableState !== '') {
+            this.props.fillTable(prevTableState); // Redux action
+            this.setState({dropDownValue: prevTableState.replace(/^\w/, c => c.toUpperCase()), viewTable: true});
+        }
+    }
+
     render() {
         return (
             <Container className="main">
@@ -90,10 +98,16 @@ class Home extends Component {
 
 }
 
+const mapStateToProps = state => {
+    return {
+        tableState: state.dataTable.game
+    }
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         fillTable: game => dispatch(fillTable(game))
     };
 };
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
