@@ -28,16 +28,17 @@ import './pokemon.scss';
 import silhouette from "../../assets/img/content/silhouette.png";
 import * as actions from "../../redux/actions";
 
+// Redux
+import connect from "react-redux/es/connect/connect";
+
 export class PokemonContainer extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {  name: this.props.props.match.params.name, game: this.props.props.match.params.game, isLoading: true,
-                        info: {name:'', number:'', height:'', weight:'', types:[], generation:'', description:'', locations: []},
-                        sprites:{frontDefault:'', backDefault:'', frontShiny:'', backShiny:''},
-                        asideInfo: {baseExperience:'', baseHappiness:'', habitat:''},
-                        evolutionInfo: {},
+        this.state = {  name: this.props.props.match.params.name,
+                        game: this.props.props.match.params.game,
+                        isLoading: true,
                         error: false
         }
     }
@@ -116,31 +117,34 @@ export class PokemonContainer extends Component {
             const evolutionsJSON = await P.resource(specieJSON.evolution_chain.url);
             const evolutionInfo = await getEvolutionInfo(evolutionsJSON, P);
 
-            this.setState({
-                isLoading: false,
-                info: {
-                    name: this.state.name.replace(/^\w/, c => c.toUpperCase()),
-                    number: number,
-                    height: pokemonJSON.height,
-                    weight: pokemonJSON.weight,
-                    types: types,
-                    generation: generation,
-                    description: description,
-                    locations: locations
-                },
-                sprites: {
-                    frontDefault: sprites.front_default,
-                    backDefault: sprites.back_default,
-                    backShiny: sprites.back_shiny,
-                    frontShiny: sprites.front_shiny
-                },
-                asideInfo: {
-                    baseExperience: pokemonJSON.base_experience,
-                    baseHappiness: specieJSON.base_happiness,
-                    habitat: specieJSON.habitat.name.replace(/^\w/, c => c.toUpperCase())
-                },
-                evolutionInfo: evolutionInfo
-            });
+            this.props.fillBasicInfo({
+                name: this.state.name.replace(/^\w/, c => c.toUpperCase()),
+                number: number,
+                height: pokemonJSON.height,
+                weight: pokemonJSON.weight,
+                types: types,
+                generation: generation,
+                description: description,
+                locations: locations
+            }); // Redux action
+            this.props.fillAsideInfo({
+                baseExperience: pokemonJSON.base_experience,
+                baseHappiness: specieJSON.base_happiness,
+                habitat: specieJSON.habitat.name.replace(/^\w/, c => c.toUpperCase())
+            }); // Redux action
+            this.props.fillSprites({
+                frontDefault: sprites.front_default,
+                backDefault: sprites.back_default,
+                backShiny: sprites.back_shiny,
+                frontShiny: sprites.front_shiny
+            }); // Redux action
+            this.props.fillEvolutionChain({
+                first: evolutionInfo.first,
+                second: evolutionInfo.second,
+                third: evolutionInfo.third,
+            }); // Redux action
+
+            this.setState({isLoading: false});
 
         } catch (error) {
             this.setState({
@@ -178,11 +182,11 @@ export class PokemonContainer extends Component {
                     <Container className='main'>
                         <Row>
                             <Col xs='12' sm='12' md='7' lg='7' className='px-0'>
-                                <BasicInfo pokemonInfo={this.state.info}/>
+                                <BasicInfo />
                             </Col>
                             <Col xs='12' sm='12' md='5' lg='5' className='px-5'>
-                                <CustomCarousel pokemonSprites={this.state.sprites} />
-                                <AsideInfo pokemonAsideInfo={this.state.asideInfo}/>
+                                <CustomCarousel />
+                                <AsideInfo />
                             </Col>
                         </Row>
                         <Row>
@@ -190,7 +194,7 @@ export class PokemonContainer extends Component {
                                 <h2>Evolution Chain</h2>
                             </Col>
                         </Row>
-                        <EvolutionChain evolutionInfo={this.state.evolutionInfo}/>
+                        <EvolutionChain />
                     </Container>
                 </Container>
             </main>
@@ -207,4 +211,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default PokemonContainer;
+export default connect(null, mapDispatchToProps)(PokemonContainer);

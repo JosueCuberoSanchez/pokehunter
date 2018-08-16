@@ -11,28 +11,29 @@ import "react-image-gallery/styles/css/image-gallery.css"
 import { pokemonSprites, pokemonSpritesDefault } from '../../../proptypes/index'
 
 import './custom-carousel.scss';
+import connect from "react-redux/es/connect/connect";
 
-const CustomCarousel = ({pokemonSprites}) => {
+const CustomCarousel = ({frontDefault, backDefault, frontShiny, backShiny}) => {
 
         const images = [
             {
-                original: pokemonSprites.frontDefault,
-                thumbnail: pokemonSprites.frontDefault,
+                original: frontDefault,
+                thumbnail: frontDefault,
                 description: 'Front default'
             },
             {
-                original: pokemonSprites.backDefault,
-                thumbnail: pokemonSprites.backDefault,
+                original: backDefault,
+                thumbnail: backDefault,
                 description: 'Back default'
             },
             {
-                original: pokemonSprites.frontShiny,
-                thumbnail: pokemonSprites.frontShiny,
+                original: frontShiny,
+                thumbnail: frontShiny,
                 description: 'Front shiny'
             },
             {
-                original: pokemonSprites.backShiny,
-                thumbnail: pokemonSprites.backShiny,
+                original: backShiny,
+                thumbnail: backShiny,
                 description: 'Back shiny'
             }
         ];
@@ -49,4 +50,13 @@ CustomCarousel.defaultProps = {
     pokemonSprites: pokemonSpritesDefault
 };
 
-export default CustomCarousel;
+const mapStateToProps = state => {
+    return {
+        frontDefault: state.sprites.frontDefault,
+        backDefault: state.sprites.backDefault,
+        frontShiny: state.sprites.frontShiny,
+        backShiny: state.sprites.backShiny
+    };
+};
+
+export default connect(mapStateToProps)(CustomCarousel);

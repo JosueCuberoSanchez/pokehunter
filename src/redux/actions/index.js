@@ -5,5 +5,3 @@ export const fillBasicInfo = basicInfo => ({ type: t.GET_POKEMON_BASIC_REQUEST, 
 export const fillAsideInfo = asideInfo => ({ type: t.GET_POKEMON_ASIDE_REQUEST, payload: asideInfo });
 export const fillSprites = sprites => ({ type: t.GET_SPRITES_REQUEST, payload: sprites });
 export const fillEvolutionChain = evolutionChain => ({ type: t.GET_EVOLUTION_CHAIN_REQUEST, payload: evolutionChain });
-export const fillEvolution = evolution => ({ type: t.GET_EVOLUTION_REQUEST, payload: evolution });
-

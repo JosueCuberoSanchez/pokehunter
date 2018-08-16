@@ -9,16 +9,19 @@ import './basic-info.scss';
 
 import { pokemonBasicInfo, pokemonBasicInfoDefault } from '../../../proptypes/index'
 
+// Redux
+import connect from "react-redux/es/connect/connect";
+
 const BasicInfo = ({pokemonInfo}) => {
 
     function getTypes() {
-        let types;
+        let typesContent;
         if(pokemonInfo.types.length === 1) {
-            types = <div className='ml-3'>{getSprite(pokemonInfo.types[0])}</div>;
+            typesContent = <div className='ml-3'>{getSprite(pokemonInfo.types[0])}</div>;
         } else {
-            types = <div className='ml-3'>{getSprite(pokemonInfo.types[1])} {getSprite(pokemonInfo.types[0])}</div>;
+            typesContent = <div className='ml-3'>{getSprite(pokemonInfo.types[1])} {getSprite(pokemonInfo.types[0])}</div>;
         }
-        return types;
+        return typesContent;
     }
 
 
@@ -105,4 +108,10 @@ BasicInfo.defaultProps = {
     pokemonInfo: pokemonBasicInfoDefault
 };
 
-export default BasicInfo;
+const mapStateToProps = state => {
+    return {
+        pokemonInfo: state.pokemonBasic
+    };
+};
+
+export default connect(mapStateToProps)(BasicInfo);

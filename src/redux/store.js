@@ -3,7 +3,7 @@ import { createLogger } from 'redux-logger';
 import { routerMiddleware } from 'react-router-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import history from '../helpers/history';
-import reducer from './reducers';
+import reducer from './reducers/';
 
 const logger = createLogger({
     collapsed: true,

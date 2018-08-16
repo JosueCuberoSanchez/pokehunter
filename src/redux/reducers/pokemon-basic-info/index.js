@@ -8,18 +8,27 @@ const INITIAL_STATE = {
     types:[],
     generation:'',
     description:'',
-    locations: []
+    locations: ''
 };
 
 function PokemonBasicReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case a.GET_POKEMON_REQUEST:
+        case a.GET_POKEMON_BASIC_REQUEST:
             //console.log('get req');
-            return true;
-        case a.GET_POKEMON_SUCCESS:
+            return { ...state,
+                name: action.payload.name,
+                number: action.payload.number,
+                height: action.payload.height,
+                weight: action.payload.weight,
+                types: action.payload.types,
+                generation: action.payload.generation,
+                description: action.payload.description,
+                locations: action.payload.locations
+            };
+        case a.GET_POKEMON_BASIC_SUCCESS:
             //console.log('get succ');
             return true;
-        case a.GET_POKEMON_FAILURE:
+        case a.GET_POKEMON_BASIC_FAILURE:
             //console.log('get fail');
             return true;
         default:

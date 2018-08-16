@@ -1,9 +1,6 @@
 import * as a from '../../actions/types';
 
 const INITIAL_STATE = {
-    pokemons: [],
-    isLoading: false,
-    error: null,
     game: ''
 };
 

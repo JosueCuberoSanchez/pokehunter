@@ -3,6 +3,9 @@ import React from 'react'
 import './aside-info.scss'
 import {pokemonAsideInfo, pokemonAsideInfoDefault} from "../../../proptypes";
 
+// Redux
+import connect from "react-redux/es/connect/connect";
+
 const AsideInfo = ({pokemonAsideInfo}) => {
     return (
         <div className='aside-info'>
@@ -21,4 +24,10 @@ AsideInfo.defaultProps = {
     pokemonAsideInfo: pokemonAsideInfoDefault
 };
 
-export default AsideInfo;
+const mapStateToProps = state => {
+    return {
+        pokemonAsideInfo: state.pokemonAside
+    }
+};
+
+export default connect(mapStateToProps)(AsideInfo);

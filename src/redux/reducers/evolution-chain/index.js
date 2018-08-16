@@ -10,7 +10,11 @@ function EvolutionChainReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
         case a.GET_EVOLUTION_CHAIN_REQUEST:
             //console.log('get req');
-            return true;
+            return { ...state,
+                first: action.payload.first,
+                second: action.payload.second,
+                third: action.payload.third
+            };
         case a.GET_EVOLUTION_CHAIN_SUCCESS:
             //console.log('get succ');
             return true;
