@@ -19,7 +19,14 @@ const Constants = {
     }, {
         dataField: 'location',
         text: 'Location'
-    }]
+    }],
+    POKEDEX_OPTIONS: {
+        protocol: 'https',
+        hostName: 'pokeapi.co:443',
+        versionPath: '/api/v2/',
+        cache: true,
+        timeout: 15 * 1000 // 15s
+    }
 };
 
 export default Constants;

@@ -6,7 +6,9 @@
 import React, {Component} from 'react';
 import { Label, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
-import DataTable from '../../components/home/data-table/';
+import DataTable from '../data-table/';
+import { connect } from "react-redux";
+import { fillTable } from "../../redux/actions/";
 
 import './home.scss';
 
@@ -17,7 +19,6 @@ class HomeContainer extends Component {
         this.state = {
             viewTable: false,
             gameInvalid: false,
-            game: '',
             dropdownOpen: false,
             dropDownValue: 'Pick a game!',
             shouldUpdate: true
@@ -72,7 +73,7 @@ class HomeContainer extends Component {
                 </Dropdown>
                 {
                     this.state.viewTable
-                        ? <DataTable game={this.state.game}/>
+                        ? <DataTable />
                         : null
                 }
             </Container>
@@ -87,9 +88,17 @@ class HomeContainer extends Component {
 
     changeValue(e) {
         let game = e.currentTarget.textContent.toString();
-        this.setState({dropDownValue: game, viewTable: true, game:game.toLowerCase().replace(/\s/g, "-")});
+        let gameForProps = game.toLowerCase().replace(/\s/g, "-");
+        this.props.fillTable(gameForProps); // Redux action
+        this.setState({dropDownValue: game, viewTable: true});
     }
 
 }
 
-export default HomeContainer;
+const mapDispatchToProps = dispatch => {
+    return {
+        fillTable: game => dispatch(fillTable(game))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(HomeContainer);

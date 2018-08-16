@@ -1,27 +1,26 @@
 import * as a from '../../actions/types';
 
 const INITIAL_STATE = {
-    frontDefault:'',
-    backDefault:'',
-    frontShiny:'',
-    backShiny:''
+    first: {},
+    second:[],
+    third: []
 };
 
-function PokemonSpritesReducer(state = INITIAL_STATE, action) {
+function EvolutionChainReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case a.GET_SPRITES_REQUEST:
+        case a.GET_EVOLUTION_CHAIN_REQUEST:
             //console.log('get req');
             return true;
-        case a.GET_SPRITES_SUCCESS:
+        case a.GET_EVOLUTION_CHAIN_SUCCESS:
             //console.log('get succ');
             return true;
-        case a.GET_SPRITES_FAILURE:
+        case a.GET_EVOLUTION_CHAIN_FAILURE:
             //console.log('get fail');
             return true;
         default:
-            //console.log('def sprites');
+            //console.log('def aside');
             return state;
     }
 }
 
-export default PokemonSpritesReducer;
+export default EvolutionChainReducer;

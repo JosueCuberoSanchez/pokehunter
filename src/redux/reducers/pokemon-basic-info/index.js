@@ -1,10 +1,14 @@
-import * as a from '../../actions';
+import * as a from '../../actions/types';
 
 const INITIAL_STATE = {
-    pokemons: [],
-    isLoading: false,
-    error: '',
-    game: ''
+    name:'',
+    number:'',
+    height:'',
+    weight:'',
+    types:[],
+    generation:'',
+    description:'',
+    locations: []
 };
 
 function PokemonBasicReducer(state = INITIAL_STATE, action) {

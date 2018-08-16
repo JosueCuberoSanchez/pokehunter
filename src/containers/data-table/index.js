@@ -12,15 +12,20 @@ import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 import LoadingScreen from 'react-loading-screen';
 
 // Images
-import silhouette from '../../../assets/img/content/silhouette.png';
+import silhouette from '../../assets/img/content/silhouette.png';
 
 // Components
-import Constants from '../../../constants/';
-import SearchBar from '../search-bar/';
-import Error from '../../error/';
+import SearchBar from '../../components/home/search-bar/index';
+import Error from '../../components/error/index';
 
 // SCSS
 import './data-table.scss';
+
+// Helpers
+import {fillLocationsArray, beautifyLocations, getPokedexLimit} from "../../helpers/functions";
+
+// Constants
+import Constants from "../../constants";
 
 // Redux
 import { connect } from 'react-redux';
@@ -55,25 +60,16 @@ class DataTable extends Component {
 
         // Variables needed by wrapper
         let Pokedex = require('pokeapi-js-wrapper');
-        let options = {
-            protocol: 'https',
-            hostName: 'pokeapi.co:443',
-            versionPath: '/api/v2/',
-            cache: true,
-            timeout: 10 * 1000 // 5s
-        };
-        let P = new Pokedex.Pokedex(options);
+        let P = new Pokedex.Pokedex(Constants.POKEDEX_OPTIONS);
 
         // Variables to inject
         let sprite;
         let name;
         let number;
         let locations;
-        let limit = this.getPokedexLimit();
+        let limit = getPokedexLimit(this.state.game);
 
-        for (let i = 1; i < 61; i++) {
-
-            locations = []; //restart locations array
+        for (let i = 1; i < 71; i++) {
 
                 // Basic pokemon-basic-info info
                 const pokemonJSON = await P.getPokemonByName(i);
@@ -101,9 +97,11 @@ class DataTable extends Component {
                 name = name.replace(/^\w/, c => c.toUpperCase());
 
                 // Pokemon locations
+                // console.log(name + ' ' + Constants.BASE_URL + pokemonJSON.location_area_encounters)
                 const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
-                locations = this.fillLocationsArray(locations, encountersJSON);
-                locations = this.beautifyLocations(locations);
+                // console.log(this.state.game + ' search');
+                locations = fillLocationsArray(encountersJSON, this.state.game);
+                locations = beautifyLocations(locations);
 
                 // Inject pokemon-basic-info to table
                 this.state.pokemons.push({
@@ -120,7 +118,6 @@ class DataTable extends Component {
     }
 
     render() {
-        //console.log(this.state.game);
 
         if (this.state.isLoading) {
             return (
@@ -159,94 +156,11 @@ class DataTable extends Component {
             </div>
         );
     }
-
-    getPokedexLimit() {
-        let limit;
-        switch (this.state.game) {
-            case 'red':
-            case 'blue':
-            case 'yellow':
-                limit = 151;
-                break;
-            case 'gold':
-            case 'silver':
-            case 'crystal':
-                limit = 251;
-                break;
-            case 'ruby':
-            case 'sapphire':
-            case 'firered':
-            case 'leafgreen':
-                limit = 439;
-                break;
-            case 'diamond':
-            case 'pearl':
-            case 'platinum':
-                limit = 507;
-                break;
-            case 'white':
-            case 'black':
-            case 'white-2':
-            case 'black-2':
-                limit = 651;
-                break;
-            case 'x':
-            case 'y':
-            case 'alpha-sapphire':
-            case 'omega-ruby':
-                limit = 721;
-                break;
-            case 'moon':
-            case 'sun':
-            case 'ultramoon':
-            case 'ultrasun':
-                limit = 807;
-                break;
-        }
-        return limit;
-    }
-
-    fillLocationsArray(locations, encountersJSON) {
-        if (encountersJSON.length === 0) {
-            locations[0] = 'Location unknown';
-        } else {
-            for (let j = 0; j < encountersJSON.length; j++) {
-                let encounterDetail = encountersJSON[j];
-                for (let k = 0; k < encounterDetail.version_details.length; k++) {
-                    let versionDetail = encounterDetail.version_details[k];
-                    if (this.state.game === versionDetail.version.name) {
-                        if (!locations.includes(encounterDetail.location_area.name)) {
-                            locations.push(encounterDetail.location_area.name.replace(/^\w/, c => c.toUpperCase()));
-                        }
-                    }
-                }
-            }
-            if (locations.length === 0)
-                locations[0] = 'Location unknown';
-        }
-        return locations;
-    }
-
-    beautifyLocations(locations) {
-        return locations.map(function(location) {
-            return location.split('-').join(' ');
-        }).join(', ');
-    }
-
 }
 
-const mapStateToProps = state => ({
-    pokemons: state.pokemons,
-    isLoading: state.isLoading,
-    error: state.error,
-    game: state.game
-});
+const mapStateToProps = state => {
+    return { game: state.dataTable.game };
+};
 
-const mapDispatchToProps = dispatch => ({
-    getAllDocuments:() => dispatch({
-        type: 'GET_POKEMON_REQUEST'
-    })
-});
-
-export default DataTable;
-//export default connect(mapStateToProps, mapDispatchToProps)(DataTable);
+//export default DataTable;
+export default connect(mapStateToProps)(DataTable);

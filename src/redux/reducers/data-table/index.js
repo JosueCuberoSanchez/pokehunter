@@ -1,20 +1,21 @@
 import * as a from '../../actions/types';
 
 const INITIAL_STATE = {
-    baseExperience:'',
-    baseHappiness:'',
-    habitat:''
+    pokemons: [],
+    isLoading: false,
+    error: null,
+    game: ''
 };
 
-function PokemonAsideReducer(state = INITIAL_STATE, action) {
+function DataTableReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case a.GET_POKEMON_REQUEST:
+        case a.GET_DATA_TABLE_REQUEST:
             //console.log('get req');
-            return true;
-        case a.GET_POKEMON_SUCCESS:
+            return { ...state, game: action.payload };
+        case a.GET_DATA_TABLE_SUCCESS:
             //console.log('get succ');
             return true;
-        case a.GET_POKEMON_FAILURE:
+        case a.GET_DATA_TABLE_FAILURE:
             //console.log('get fail');
             return true;
         default:
@@ -23,4 +24,4 @@ function PokemonAsideReducer(state = INITIAL_STATE, action) {
     }
 }
 
-export default PokemonAsideReducer;
+export default DataTableReducer;
