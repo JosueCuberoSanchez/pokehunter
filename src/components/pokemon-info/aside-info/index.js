@@ -26,7 +26,7 @@ AsideInfo.defaultProps = {
 
 const mapStateToProps = state => {
     return {
-        pokemonAsideInfo: state.pokemonAside
+        pokemonAsideInfo: state.pokemon.asideInfo
     }
 };
 

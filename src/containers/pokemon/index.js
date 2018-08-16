@@ -15,12 +15,6 @@ import AsideInfo from "../../components/pokemon-info/aside-info";
 import EvolutionChain from "../../components/pokemon-info/evolution-chain";
 import Error from '../../components/error/';
 
-// Constants
-import Constants from "../../constants";
-
-// Helpers
-import {fillLocationsArray, beautifyLocations, getEvolutionInfo} from '../../helpers/functions';
-
 // SCSS
 import './pokemon.scss';
 
@@ -29,133 +23,30 @@ import silhouette from "../../assets/img/content/silhouette.png";
 
 // Redux
 import connect from "react-redux/es/connect/connect";
-import * as actions from "../../redux/actions";
+import * as actions from "../../redux/actionCreators/";
 
 export class PokemonContainer extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {  name: this.props.props.match.params.name,
-                        game: this.props.props.match.params.game,
-                        isLoading: true,
-                        error: false
+        this.state = {
+            name: this.props.params.name,
+            game: this.props.params.game,
+            isLoading: true,
+            error: false
         }
     }
 
     componentDidMount() {
-        this.fetchData(this.state.name);
+        this.props.fetchPokemon(this.state.name, this.state.game);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.fetchData(nextProps.props.match.params.name);
-    }
-
-    async fetchData(name) {
-        // pokeapi wrapper variables
-        const Pokedex = require('pokeapi-js-wrapper');
-        const P = new Pokedex.Pokedex(Constants.POKEDEX_OPTIONS);
-
-        try {
-            const pokemonJSON = await P.getPokemonByName(name);
-
-            // sprites
-            const sprites = pokemonJSON.sprites;
-
-            // pokedex entry
-            let number;
-            switch (pokemonJSON.id.toString().length) {
-                case 1:
-                    number = '00' + pokemonJSON.id;
-                    break;
-                case 2:
-                    number = '0' + pokemonJSON.id;
-                    break;
-                default:
-                    number = '' + pokemonJSON.id;
-                    break;
-            }
-
-            const specieJSON = await P.getPokemonSpeciesByName(name);
-
-            // description
-            let description;
-            description = specieJSON.flavor_text_entries.filter(entry => entry.version.name === this.state.game && entry.language.name === 'en')[0].flavor_text;
-            if (description === '')
-                description = 'This description is missing in the PokeAPI';
-
-            // types
-            const types = pokemonJSON.types.map(function(position) {
-                return position.type.name;
-            });
-
-            // generation
-            let generationArray = specieJSON.generation.name.split('-');
-            let generation = generationArray[0].replace(/^\w/, c => c.toUpperCase());
-            switch (generationArray[1]) {
-                case 'i':
-                    generation += ' 1 (Kanto)';
-                    break;
-                case 'ii':
-                    generation += ' 2 (Johto)';
-                    break;
-                case 'iii':
-                    generation += ' 3 (Hoenn)';
-                    break;
-                case 'iv':
-                    generation += ' 4 (Sinnoh)';
-                    break;
-                case 'v':
-                    generation += ' 5 (Unova)';
-                    break;
-                case 'vi':
-                    generation += ' 6 (Kalos)';
-                    break;
-            }
-
-            // Pokemon locations
-            const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
-            let locations = fillLocationsArray(encountersJSON, this.state.game);
-            locations = beautifyLocations(locations);
-            // Evolution chain
-            const evolutionsJSON = await P.resource(specieJSON.evolution_chain.url);
-            const evolutionInfo = await getEvolutionInfo(evolutionsJSON, P);
-
-            this.props.fillBasicInfo({
-                name: name.replace(/^\w/, c => c.toUpperCase()),
-                number: number,
-                height: pokemonJSON.height,
-                weight: pokemonJSON.weight,
-                types: types,
-                generation: generation,
-                description: description,
-                locations: locations
-            }); // Redux action
-            this.props.fillAsideInfo({
-                baseExperience: pokemonJSON.base_experience,
-                baseHappiness: specieJSON.base_happiness,
-                habitat: specieJSON.habitat.name.replace(/^\w/, c => c.toUpperCase())
-            }); // Redux action
-            this.props.fillSprites({
-                frontDefault: sprites.front_default,
-                backDefault: sprites.back_default,
-                backShiny: sprites.back_shiny,
-                frontShiny: sprites.front_shiny
-            }); // Redux action
-            this.props.fillEvolutionChain({
-                first: evolutionInfo.first,
-                second: evolutionInfo.second,
-                third: evolutionInfo.third,
-                game: this.state.game
-            }); // Redux action
-
-            this.setState({isLoading: false, name: name});
-
-        } catch (error) {
-            this.setState({
-                error,
-                isLoading: false
-            })
+        this.setState({isLoading: false});
+        if(this.state.name !== nextProps.params.name) {
+            this.setState({name: nextProps.params.name});
+            this.props.fetchPokemon(nextProps.params.name, this.state.game);
         }
     }
 
@@ -178,9 +69,9 @@ export class PokemonContainer extends Component {
                     </Container>
                 </main>
             );
-        } /*else if (this.state.error) {
+        } else if (this.state.error) {
             return <Error />
-        }*/
+        }
         return (
             <main>
                 <Container fluid={true} className='pt-4 pb-5'>
@@ -207,13 +98,14 @@ export class PokemonContainer extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return { name: state.pokemon.name, isLoading: state.pokemon.isLoading };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
-        fillBasicInfo: basicInfo => dispatch(actions.fillBasicInfo(basicInfo)),
-        fillAsideInfo: asideInfo => dispatch(actions.fillAsideInfo(asideInfo)),
-        fillSprites: sprites => dispatch(actions.fillSprites(sprites)),
-        fillEvolutionChain: evolutionChain => dispatch(actions.fillEvolutionChain(evolutionChain))
+        fetchPokemon: (name,game) => dispatch(actions.fetchPokemon(name,game))
     };
 };
 
-export default connect(null, mapDispatchToProps)(PokemonContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonContainer);

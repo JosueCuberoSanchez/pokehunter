@@ -15,7 +15,7 @@ class Pokemon extends Component {
         this.state = {props: props}
     }
 
-    componentWillReceiveProps(nextState){
+    componentWillReceiveProps(nextState) {
         if(nextState.match.params.name !== this.state.props.match.params.name) {
             this.setState({props: nextState});
         }
@@ -23,7 +23,7 @@ class Pokemon extends Component {
 
     render () {
         return (
-            <PokemonContainer props={this.state.props}/>
+            <PokemonContainer params={this.state.props.match.params}/>
         )
     }
 }

@@ -73,12 +73,11 @@ class EvolutionChain extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state)
     return {
-        first: state.evolutionChain.first,
-        second: state.evolutionChain.second,
-        third: state.evolutionChain.third,
-        game: state.evolutionChain.game
+        first: state.pokemon.evolutionChain.first,
+        second: state.pokemon.evolutionChain.second,
+        third: state.pokemon.evolutionChain.third,
+        game: state.pokemon.evolutionChain.game
     };
 };
 

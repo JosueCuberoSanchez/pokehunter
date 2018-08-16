@@ -21,11 +21,22 @@ footer {
 
 // Media query for footer responsiveness 
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1082px) {
   .navbar {
 
-    &__link {
+    &__link,
+    &__small-text {
       font-size: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .navbar {
+
+    &__link,
+    &__small-text {
+      font-size: 0.8rem;
     }
   }
 }

@@ -52,10 +52,10 @@ CustomCarousel.defaultProps = {
 
 const mapStateToProps = state => {
     return {
-        frontDefault: state.sprites.frontDefault,
-        backDefault: state.sprites.backDefault,
-        frontShiny: state.sprites.frontShiny,
-        backShiny: state.sprites.backShiny
+        frontDefault: state.pokemon.sprites.frontDefault,
+        backDefault: state.pokemon.sprites.backDefault,
+        frontShiny: state.pokemon.sprites.frontShiny,
+        backShiny: state.pokemon.sprites.backShiny
     };
 };
 

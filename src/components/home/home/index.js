@@ -8,7 +8,7 @@ import { Label, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem}
 
 import DataTable from '../../../containers/data-table/index';
 import { connect } from "react-redux";
-import { fillTable } from "../../../redux/actions/index";
+import { fillDataTable } from "../../../redux/actionCreators/index";
 
 import './home.scss';
 
@@ -18,21 +18,17 @@ class Home extends Component {
 
         this.state = {
             viewTable: false,
-            gameInvalid: false,
-            dropdownOpen: false,
-            dropDownValue: 'Pick a game!',
-            shouldUpdate: true
+            dropDownOpen: false,
+            dropDownValue: 'Pick a game!'
         };
-
-        this.toggle = this.toggle.bind(this);
-        this.changeValue = this.changeValue.bind(this);
     }
 
-    componentDidMount() {
-        const prevTableState = this.props.tableState;
-        if(prevTableState !== '') {
-            this.props.fillTable(prevTableState); // Redux action
-            this.setState({dropDownValue: prevTableState.replace(/^\w/, c => c.toUpperCase()), viewTable: true});
+    componentDidMount() { //used to check if there was a previous state for the table.
+        const prevTableState = this.props.tableState; // the previous state stored on Redux store
+        if(prevTableState !== '') { // if it's null it means we come from a page refresh
+            this.props.fillDataTable(prevTableState); // Redux action to fill the table with the previous data
+            const dropDownValue = prevTableState.replace(/^\w/, c => c.toUpperCase()); // beautify the value
+            this.setState({dropDownValue: dropDownValue, viewTable: true}); // Render the table with the previous state
         }
     }
 
@@ -40,7 +36,7 @@ class Home extends Component {
         return (
             <Container className="main">
                 <Label htmlFor="filter-by-game" className='mt-3'>Chose a Pokémon game</Label>
-                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} id="filter-by-game" className='mb-3'>
+                <Dropdown isOpen={this.state.dropDownOpen} toggle={this.toggle} id="filter-by-game" className='mb-3'>
                     <DropdownToggle caret>
                         {this.state.dropDownValue}
                     </DropdownToggle>
@@ -83,30 +79,30 @@ class Home extends Component {
         )
     }
 
-    toggle() {
+    toggle = () => { // open or close dropDown
         this.setState(prevState => ({
-            dropdownOpen: !prevState.dropdownOpen
+            dropDownOpen: !prevState.dropDownOpen
         }));
-    }
+    };
 
-    changeValue(e) {
-        let game = e.currentTarget.textContent.toString();
-        let gameForProps = game.toLowerCase().replace(/\s/g, "-");
-        this.props.fillTable(gameForProps); // Redux action
-        this.setState({dropDownValue: game, viewTable: true});
-    }
+    changeValue = (e) => { // change dropDown value when user selects a game
+        let game = e.currentTarget.textContent.toString(); // get the game
+        let gameForProps = game.toLowerCase().replace(/\s/g, "-"); // pass the game on lower case to Redux state
+        this.props.fillDataTable(gameForProps); // Redux action
+        this.setState({dropDownValue: game, viewTable: true}); // Render table
+    };
 
 }
 
 const mapStateToProps = state => {
     return {
-        tableState: state.dataTable.game
+        tableState: state.dataTable.game // Get the previous history from Redux
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fillTable: game => dispatch(fillTable(game))
+        fillDataTable: game => dispatch(fillDataTable(game)) // Send game to Redux state
     };
 };
 

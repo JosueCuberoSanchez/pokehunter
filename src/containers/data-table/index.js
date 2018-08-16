@@ -5,7 +5,6 @@
 
 // Vendor components
 import React, {Component} from 'react';
-import Link from "react-router-dom/es/Link";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
@@ -21,14 +20,12 @@ import Error from '../../components/error/index';
 // SCSS
 import './data-table.scss';
 
-// Helpers
-import {fillLocationsArray, beautifyLocations, getPokedexLimit} from "../../helpers/functions";
-
 // Constants
 import Constants from "../../constants";
 
 // Redux
 import { connect } from 'react-redux';
+import { fillDataTable } from "../../redux/actionCreators";
 
 class DataTable extends Component {
 
@@ -36,95 +33,31 @@ class DataTable extends Component {
         super(props);
 
         this.state = {
-            pokemons: [],
-            isLoading: false,
-            error: null,
-            game: props.game
+            pokemons: props.pokemons,
+            isLoading: props.isLoading,
+            error: props.error,
+            game: props.game,
+            fillDataTable: (game) => {}
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) { //checks if the state change is a game change or a browser back change.
         if(this.state.game !== nextProps.game) {
-            this.setState({game: nextProps.game, pokemons: []});
-            this.fetchData();
+            this.setState({game: nextProps.game, pokemons: nextProps.pokemons, isLoading: nextProps.isLoading});
+        } else if(this.state.pokemons !== nextProps.pokemons) {
+            this.setState({pokemons: nextProps.pokemons, isLoading: nextProps.isLoading});
         }
     }
 
     componentDidMount() {
-        this.fetchData();
-    }
-
-    async fetchData() {
-
-        this.setState({isLoading: true});
-
-        // Variables needed by wrapper
-        let Pokedex = require('pokeapi-js-wrapper');
-        let P = new Pokedex.Pokedex(Constants.POKEDEX_OPTIONS);
-
-        // Variables to inject
-        let sprite;
-        let name;
-        let number;
-        let locations;
-        let limit = getPokedexLimit(this.state.game);
-
-        for (let i = 1; i < 71; i++) {
-
-                // Basic pokemon-basic-info info
-                const pokemonJSON = await P.getPokemonByName(i);
-
-                // Get name
-                name = pokemonJSON.name;
-
-                // Get pokedex entry
-                switch (pokemonJSON.id.toString().length) {
-                    case 1:
-                        number = '00' + pokemonJSON.id;
-                        break;
-                    case 2:
-                        number = '0' + pokemonJSON.id;
-                        break;
-                    default:
-                        number = pokemonJSON.id;
-                        break;
-                }
-
-                // Pokemon sprite
-                sprite = <Link to={'/info/' + name + '/' + this.state.game} className='pokemon-link'><img
-                    src={pokemonJSON.sprites.front_default} className="d-block mx-auto"/></Link>;
-                name = name.replace(/^\w/, c => c.toUpperCase());
-
-                // Pokemon locations
-                const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
-                locations = fillLocationsArray(encountersJSON, this.state.game);
-                locations = beautifyLocations(locations);
-
-                // Inject pokemon-basic-info to table
-                this.state.pokemons.push({
-                    sprite: sprite,
-                    name: name,
-                    number: number,
-                    location: locations
-                });
-
-                // Update state
-                if ((i % 10) === 0)
-                    this.setState({pokemons: this.state.pokemons, isLoading: false})
-        }
+        this.state.fillDataTable({game: this.state.game});
     }
 
     render() {
 
         if (this.state.isLoading) {
             return (
-                <LoadingScreen
-                    loading={true}
-                    bgColor='transparent'
-                    spinnerColor='#9ee5f8'
-                    textColor='#676767'
-                    logoSrc={silhouette}
-                    text='Wait a second, searching your Pokémons...'>
+                <LoadingScreen loading={true} bgColor='transparent' spinnerColor='#9ee5f8' textColor='#676767' logoSrc={silhouette} text='Wait a second, searching your Pokémons...'>
                     <div/>
                 </LoadingScreen>
             );
@@ -156,8 +89,11 @@ class DataTable extends Component {
 }
 
 const mapStateToProps = state => {
-    return { game: state.dataTable.game };
+    return { game: state.dataTable.game, isLoading: state.dataTable.isLoading, error: state.dataTable.error, pokemons: state.dataTable.pokemons };
 };
 
-//export default DataTable;
-export default connect(mapStateToProps)(DataTable);
+const mapDispatchToProps = {
+    fillDataTable
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

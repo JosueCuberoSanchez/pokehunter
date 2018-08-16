@@ -14,7 +14,7 @@ import connect from "react-redux/es/connect/connect";
 
 const BasicInfo = ({pokemonInfo}) => {
 
-    function getTypes() {
+    function getTypes() { //get types sprites
         let typesContent;
         if(pokemonInfo.types.length === 1) {
             typesContent = <div className='ml-3'>{getSprite(pokemonInfo.types[0])}</div>;
@@ -25,7 +25,7 @@ const BasicInfo = ({pokemonInfo}) => {
     }
 
 
-    function getSprite(type) {
+    function getSprite(type) { // get type sprite, i tag uses a mixin to set up background image from a types sprite.
         let typeSprite;
         switch (type) {
             case 'grass':
@@ -110,7 +110,7 @@ BasicInfo.defaultProps = {
 
 const mapStateToProps = state => {
     return {
-        pokemonInfo: state.pokemonBasic
+        pokemonInfo: state.pokemon.basicInfo
     };
 };
 
