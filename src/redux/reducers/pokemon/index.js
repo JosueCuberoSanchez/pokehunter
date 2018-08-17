@@ -7,7 +7,10 @@ const INITIAL_STATE = {
     basicInfo: {},
     asideInfo: {},
     sprites: {},
-    evolutionChain: {}
+    evolutionChain: {},
+    game: '',
+    previous: '',
+    next: ''
 };
 
 function PokemonReducer(state = INITIAL_STATE, action) {
@@ -16,7 +19,8 @@ function PokemonReducer(state = INITIAL_STATE, action) {
             return { ...state, isLoading: true }; // all that I already had but change game to action.payload and return a new object
         case a.GET_POKEMON_SUCCESS:
             return { ...state, name: action.payload.name, basicInfo: action.payload.basicInfo, asideInfo: action.payload.asideInfo,
-                sprites: action.payload.sprites, evolutionChain: action.payload.evolutionChain, isLoading: false };
+                sprites: action.payload.sprites, evolutionChain: action.payload.evolutionChain, isLoading: false,
+                game: action.payload.game, previous: action.payload.previous, next: action.payload.next };
             // all that I already had but change game to action.payload and return a new object
         case a.GET_POKEMON_FAILURE:
             return { ...state, error: action.error, isLoading: false }; // all that I already had but change game to action.payload and return a new object

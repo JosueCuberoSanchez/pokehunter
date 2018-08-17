@@ -9,10 +9,47 @@ import './basic-info.scss';
 
 import { pokemonBasicInfo, pokemonBasicInfoDefault } from '../../../proptypes/index'
 
+import arrowLeft from '../../../assets/img/content/arrow-left.png';
+import arrowRight from '../../../assets/img/content/arrow-right.png';
+
 // Redux
 import connect from "react-redux/es/connect/connect";
+import Link from "react-router-dom/es/Link";
 
-const BasicInfo = ({pokemonInfo}) => {
+const BasicInfo = ({pokemonInfo, previous, next, game}) => {
+
+    function getHeader() {
+        let header;
+        if(previous !== '' && next !== '') { // if it haves both prev and next render both arrows
+            header =
+                <div>
+                    <Link to={'/info/' + previous + '/' + game} className='pokemon-link'>
+                        <img src={arrowLeft} className='basic-info__arrow mx-3' />
+                    </Link>
+                    {pokemonInfo.name}
+                    <Link to={'/info/' + next + '/' + game} className='pokemon-link'>
+                        <img src={arrowRight} className='basic-info__arrow mx-3' />
+                    </Link>
+                </div>;
+        } else if (previous !== '') {
+            header =
+                <div>
+                    <Link to={'/info/' + previous + '/' + game} className='pokemon-link'>
+                        <img src={arrowLeft} className='basic-info__arrow mx-3' />
+                    </Link>
+                    {pokemonInfo.name}
+                </div>;
+        } else {
+            header =
+                <div>
+                    {pokemonInfo.name}
+                    <Link to={'/info/' + next + '/' + game} className='pokemon-link'>
+                        <img src={arrowRight} className='basic-info__arrow mx-3' />
+                    </Link>
+                </div>;
+        }
+        return header;
+    }
 
     function getTypes() { //get types sprites
         let typesContent;
@@ -88,7 +125,7 @@ const BasicInfo = ({pokemonInfo}) => {
 
     return (
         <div className='basic-info'>
-            <h1 className='text-center my-4'>{pokemonInfo.name}</h1>
+            <h1 className='text-center my-4'>{getHeader()}</h1>
             <div className='basic-info__row pl-4'><p><strong>Pokédex No.:</strong> {pokemonInfo.number}</p></div>
             <div className='basic-info__row pl-4'><p><strong>Pokédex description:</strong> {pokemonInfo.description}</p></div>
             <div className='basic-info__row d-flex pl-4'><p><strong>Type(s):</strong></p>{getTypes()}</div>
@@ -110,7 +147,10 @@ BasicInfo.defaultProps = {
 
 const mapStateToProps = state => {
     return {
-        pokemonInfo: state.pokemon.basicInfo
+        pokemonInfo: state.pokemon.basicInfo,
+        next: state.pokemon.next,
+        previous: state.pokemon.previous,
+        game: state.pokemon.game
     };
 };
 

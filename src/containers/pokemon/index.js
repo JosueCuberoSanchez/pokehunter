@@ -6,7 +6,7 @@
 // Vendor components
 import React, { Component } from 'react';
 import { Row, Col, Container} from 'reactstrap';
-import LoadingScreen from "react-loading-screen";
+import LoadingScreen from "../../components/loading-screen/";
 
 // Components
 import BasicInfo from '../../components/pokemon-info/basic-info/';

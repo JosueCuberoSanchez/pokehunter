@@ -1,0 +1,21 @@
+// helpers
+@import '../../assets/scss/variables';
+
+// Loading screen styles
+
+.loading-screen {
+
+  &__loading {
+    background-color: transparent;
+    width: 100%;
+  }
+
+  &__loading img {
+    min-height: 209px;
+    min-width: 200px;
+  }
+
+  &__audio-controls {
+    float: left;
+  }
+}

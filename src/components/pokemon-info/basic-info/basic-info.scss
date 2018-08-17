@@ -12,6 +12,10 @@ p {
     margin-bottom: 35px;
   }
 
+  &__arrow {
+    width: 7%;
+  }
+
   &__sprite {
     background-image: url(../../../assets/img/content/types.png);
     display: inline-block;

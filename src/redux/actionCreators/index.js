@@ -1,6 +1,6 @@
 import * as t from "../actions/types";
-import Constants from "../../constants";
-import {beautifyLocations, fillLocationsArray, getEvolutionInfo, getPokedexLimit} from "../../helpers/functions";
+import Constants from "../../helpers/constants";
+import {beautifyLocations, fillLocationsArray, getEvolutionInfo, getPokedexLimit, getNeighbors} from "../../helpers/functions";
 import Link from "react-router-dom/es/Link";
 import React from "react";
 
@@ -25,7 +25,7 @@ export const fillDataTable = (game) => {
             // This will limit the entries based on the chosen game, no one will want a pokemon from Platinum if it picked Crystal...
             const limit = getPokedexLimit(game);
 
-            for (let i = 1; i < 61; i++) {
+            for (let i = 1; i < limit; i++) {
 
                 // Basic pokemon info
                 const pokemonJSON = await P.getPokemonByName(i);
@@ -160,6 +160,8 @@ export const fetchPokemon = (name, game) => {
             name = name.replace(/^\w/, c => c.toUpperCase());
             const habitat = specieJSON.habitat.name.replace(/^\w/, c => c.toUpperCase());
 
+            const neighbors = await getNeighbors(number, P);
+
             // Update payload in reducer on success
             dispatch({
                 type: t.GET_POKEMON_SUCCESS,
@@ -191,7 +193,10 @@ export const fetchPokemon = (name, game) => {
                         second: evolutionInfo.second,
                         third: evolutionInfo.third,
                         game: game
-                    }
+                    },
+                    game: game,
+                    previous: neighbors.previous,
+                    next: neighbors.next
                 }
             })
         } catch (err) {

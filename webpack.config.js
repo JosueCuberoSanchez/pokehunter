@@ -8,7 +8,7 @@
 let path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/constants.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'index.js',
@@ -54,6 +54,10 @@ module.exports = {
                     options: {}  
                   }
                 ]
+            },
+            {
+                test: /\.mp3$/,
+                loader: 'file-loader'
             }
         ]
     },

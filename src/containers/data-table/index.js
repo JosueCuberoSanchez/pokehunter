@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
-import LoadingScreen from 'react-loading-screen';
+import LoadingScreen from '../../components/loading-screen/';
 
 // Images
 import silhouette from '../../assets/img/content/silhouette.png';
@@ -21,7 +21,7 @@ import Error from '../../components/error/index';
 import './data-table.scss';
 
 // Constants
-import Constants from "../../constants";
+import Constants from "../../helpers/constants";
 
 // Redux
 import { connect } from 'react-redux';

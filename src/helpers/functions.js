@@ -1,4 +1,6 @@
 // Fill the locations for a given pokemon
+import Constants from "./constants";
+
 export function fillLocationsArray(encountersJSON, game) {
     let locations = [];
     if (encountersJSON.length === 0) {
@@ -159,4 +161,42 @@ function getEvolutionTrigger(evolution) {
         trigger = `Trade ${item}`;
     }
     return trigger;
+}
+
+export async function getNeighbors(number, P) {
+
+    let num = parseInt(number)-1; //pokedex entry
+    const index = num % 20; //the index in the results JSON
+    let offset = Math.floor(num / 20)*20;
+
+    if(offset === 0 && num > 19) {
+        offset = 20;
+    }
+
+    let prev = '';
+    let next = '';
+
+    const neighborsJSON = await P.resource(Constants.BASE_URL + Constants.API_URL + Constants.PAGING + offset);
+
+    if(index === 0) {
+        const prevNeighborsJSON = await P.resource(Constants.BASE_URL + Constants.API_URL + Constants.PAGING + (offset-20));
+        prev = prevNeighborsJSON.results[19].name;
+        next = neighborsJSON.results[index+1].name;
+    } else if(index === 19) {
+        const nextNeighborsJSON = await P.resource(Constants.BASE_URL + Constants.API_URL + Constants.PAGING + (offset+20));
+        prev = neighborsJSON.results[index-1].name;
+        next = nextNeighborsJSON.results[0].name;
+    } else {
+        prev = neighborsJSON.results[index-1].name;
+        next = neighborsJSON.results[index+1].name;
+    }
+
+    if(num === 0) {
+        prev = '';
+    }
+    if(num === 721) {
+        next = '';
+    }
+    
+    return {previous: prev, next: next};
 }
