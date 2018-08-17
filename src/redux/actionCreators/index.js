@@ -54,7 +54,7 @@ export const fillDataTable = (game) => {
                 // Pokemon locations
                 const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
                 locations = fillLocationsArray(encountersJSON, game);
-                locations = beautifyLocations(locations);
+                locations = beautifyLocations(locations, game);
 
                 name = name.replace(/^\w/, c => c.toUpperCase()); // beautify name
 
@@ -151,7 +151,7 @@ export const fetchPokemon = (name, game) => {
             // Pokemon locations
             const encountersJSON = await P.resource(Constants.BASE_URL + pokemonJSON.location_area_encounters);
             let locations = fillLocationsArray(encountersJSON, game);
-            locations = beautifyLocations(locations);
+            locations = beautifyLocations(locations, game);
 
             // Evolution chain
             const evolutionsJSON = await P.resource(specieJSON.evolution_chain.url);

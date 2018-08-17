@@ -50,6 +50,8 @@ class Home extends Component {
                         <DropdownItem onClick={this.changeValue}>Gold</DropdownItem>
                         <DropdownItem onClick={this.changeValue}>Silver</DropdownItem>
                         <DropdownItem onClick={this.changeValue}>Crystal</DropdownItem>
+                        <DropdownItem onClick={this.changeValue}>HeartGold</DropdownItem>
+                        <DropdownItem onClick={this.changeValue}>SoulSilver</DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem onClick={this.changeValue}>Ruby</DropdownItem>
                         <DropdownItem onClick={this.changeValue}>Sapphire</DropdownItem>

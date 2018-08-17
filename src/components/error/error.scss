@@ -1,0 +1,13 @@
+// Error styles
+
+.error-screen {
+
+  &__error {
+    background-color: transparent;
+    width: 100%;
+  }
+
+  &__error-msg {
+    font-size: 1.5rem;
+  }
+}

@@ -12,7 +12,7 @@ export function fillLocationsArray(encountersJSON, game) {
                 var versionDetail = encounterDetail.version_details[k];
                 if (game === versionDetail.version.name) {
                     if (!locations.includes(encounterDetail.location_area.name)) {
-                        locations.push(encounterDetail.location_area.name.replace(/^\w/, c => c.toUpperCase()));
+                        locations.push(encounterDetail.location_area.name);
                     }
                 }
             }
@@ -24,10 +24,65 @@ export function fillLocationsArray(encountersJSON, game) {
 }
 
 // Beautify the locations array
-export function beautifyLocations(locations) {
-    return locations.map(function(location) {
-        return location.split('-').join(' ');
-    }).join(', ');
+export function beautifyLocations(locations, game) {
+    let newLocations = [];
+    let location;
+
+    const region = getGameRegion(game);
+    const length = locations.length;
+
+    for(let i=0; i < length; i++) {
+        location = locations[i].split('-');
+        location = location.filter(e => e !== region);
+        location = location.filter(e => e !== 'area');
+        location = location.join(' ');
+        location = location.replace(/^\w/, c => c.toUpperCase());
+        newLocations[i] = location;
+    }
+
+    return newLocations.join(', ');
+}
+
+function getGameRegion(game) {
+    let region;
+    switch (game) {
+        case 'red':
+        case 'blue':
+        case 'yellow':
+        case 'firered':
+        case 'leafgreen':
+            region = 'kanto';
+            break;
+        case 'gold':
+        case 'silver':
+        case 'crystal':
+        case 'heartgold':
+        case 'soulsilver':
+            region = ''; // as this games involve 2 different regions, the region name will remain in the location.
+            break;
+        case 'ruby':
+        case 'sapphire':
+        case 'alpha-sapphire':
+        case 'omega-ruby':
+            region = 'hoenn';
+            break;
+        case 'diamond':
+        case 'pearl':
+        case 'platinum':
+            region = 'sinnoh';
+            break;
+        case 'white':
+        case 'black':
+        case 'white-2':
+        case 'black-2':
+            region = 'unova';
+            break;
+        case 'x':
+        case 'y':
+            region = 'kalos';
+            break;
+    }
+    return region;
 }
 
 // Get the pokedex limit
@@ -53,6 +108,8 @@ export function getPokedexLimit(game) {
         case 'diamond':
         case 'pearl':
         case 'platinum':
+        case 'heartgold':
+        case 'soulsilver':
             limit = 507;
             break;
         case 'white':
@@ -197,6 +254,6 @@ export async function getNeighbors(number, P) {
     if(num === 721) {
         next = '';
     }
-    
+
     return {previous: prev, next: next};
 }
