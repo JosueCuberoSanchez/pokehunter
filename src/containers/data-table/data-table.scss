@@ -67,12 +67,10 @@ th, td {
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
 
-  /* Force table to not be like tables anymore */
   table, thead, tbody, th, td, tr {
     display: block;
   }
 
-  /* Hide table headers (but not display: none;, for accessibility) */
   thead tr {
     position: absolute;
     top: -9999px;
@@ -96,8 +94,6 @@ th, td {
   }
 
   td:before {
-    /* Now like a table header */
-    /* Top/left values mimic padding */
     top: -15px;
     left: 6px;
     width: 45%;
@@ -105,10 +101,6 @@ th, td {
     white-space: nowrap;
   }
 
-  /*
-  Label the data
-You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
-  */
   td:nth-of-type(1):before {
     content: "Sprite:";
   }

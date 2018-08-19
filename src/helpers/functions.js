@@ -1,5 +1,5 @@
 // Fill the locations for a given pokemon
-import Constants from "./constants";
+import Constants from './constants';
 
 export function fillLocationsArray(encountersJSON, game) {
     let locations = [];

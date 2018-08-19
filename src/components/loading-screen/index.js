@@ -13,8 +13,8 @@ const LoadingScreen = ()  => {
 
     return (
         <div>
-            <div className="loading-screen__loading w-100 d-block text-center">
-                <img src={loading} className='w-25 d-block mx-auto' alt="Loading" />
+            <div className='loading-screen__loading w-100 d-block text-center'>
+                <img src={loading} className='w-25 d-block mx-auto' alt='Loading' />
                 <p><strong>Wait a second please...</strong></p>
             </div>
         </div>

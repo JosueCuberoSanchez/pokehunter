@@ -1,8 +1,8 @@
-import * as t from "../actions/types";
-import Constants from "../../helpers/constants";
-import {beautifyLocations, fillLocationsArray, getEvolutionInfo, getPokedexLimit, getNeighbors, beautifyHabitat} from "../../helpers/functions";
-import Link from "react-router-dom/es/Link";
-import React from "react";
+import * as t from '../actions/types';
+import Constants from '../../helpers/constants';
+import {beautifyLocations, fillLocationsArray, getEvolutionInfo, getPokedexLimit, getNeighbors, beautifyHabitat} from '../../helpers/functions';
+import Link from 'react-router-dom/es/Link';
+import React from 'react';
 
 export const fillDataTable = (game) => {
     return async dispatch => {
@@ -48,7 +48,7 @@ export const fillDataTable = (game) => {
 
                 // Pokemon sprite
                 sprite = <Link to={'/info/' + name + '/' + game} className='pokemon-link'>
-                    <img src={pokemonJSON.sprites.front_default} className="d-block mx-auto"/>
+                    <img src={pokemonJSON.sprites.front_default} className='d-block mx-auto'/>
                 </Link>;
 
                 // Pokemon locations

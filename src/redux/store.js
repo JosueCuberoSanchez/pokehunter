@@ -14,7 +14,13 @@ const logger = createLogger({
 
 let store = createStore(
     reducer,
-    applyMiddleware(thunk)
+    composeWithDevTools( // Redux on Chrome dev tools
+        applyMiddleware(
+            thunk,
+            routerMiddleware(history),
+            logger
+        )
+    )
 );
 
 store.subscribe(() =>

@@ -13,8 +13,8 @@ import arrowLeft from '../../../assets/img/content/arrow-left.png';
 import arrowRight from '../../../assets/img/content/arrow-right.png';
 
 // Redux
-import connect from "react-redux/es/connect/connect";
-import Link from "react-router-dom/es/Link";
+import connect from 'react-redux/es/connect/connect';
+import Link from 'react-router-dom/es/Link';
 
 const BasicInfo = ({pokemonInfo, previous, next, game}) => {
 

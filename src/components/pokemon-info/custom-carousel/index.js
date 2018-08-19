@@ -6,12 +6,12 @@
 import React from 'react';
 
 import ImageGallery from 'react-image-gallery';
-import "react-image-gallery/styles/css/image-gallery.css"
+import 'react-image-gallery/styles/css/image-gallery.css'
 
 import { pokemonSprites, pokemonSpritesDefault } from '../../../proptypes/index'
 
 import './custom-carousel.scss';
-import connect from "react-redux/es/connect/connect";
+import connect from 'react-redux/es/connect/connect';
 
 const CustomCarousel = ({frontDefault, backDefault, frontShiny, backShiny}) => {
 

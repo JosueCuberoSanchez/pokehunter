@@ -7,8 +7,8 @@ import React, {Component} from 'react';
 import { Label, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
 import DataTable from '../../../containers/data-table/index';
-import { connect } from "react-redux";
-import { fillDataTable } from "../../../redux/actionCreators/index";
+import { connect } from 'react-redux';
+import { fillDataTable } from '../../../redux/actionCreators/index';
 
 import './home.scss';
 
@@ -34,9 +34,9 @@ class Home extends Component {
 
     render() {
         return (
-            <Container className="main">
-                <Label htmlFor="filter-by-game" className='mt-3'>Chose a Pokémon game</Label>
-                <Dropdown isOpen={this.state.dropDownOpen} toggle={this.toggle} id="filter-by-game" className='mb-3'>
+            <Container className='main'>
+                <Label htmlFor='filter-by-game' className='mt-3'>Chose a Pokémon game</Label>
+                <Dropdown isOpen={this.state.dropDownOpen} toggle={this.toggle} id='filter-by-game' className='mb-3'>
                     <DropdownToggle caret>
                         {this.state.dropDownValue}
                     </DropdownToggle>
@@ -90,7 +90,7 @@ class Home extends Component {
     changeValue = (e) => { // change dropDown value when user selects a game
         let game = e.currentTarget.textContent.toString(); // get the game
         if(this.state.dropDownValue !== game) { // if the user chose the same game, do not render again...
-            let gameForProps = game.toLowerCase().replace(/\s/g, "-"); // pass the game on lower case to Redux state
+            let gameForProps = game.toLowerCase().replace(/\s/g, '-'); // pass the game on lower case to Redux state
             this.props.fillDataTable(gameForProps); // Redux action
             this.setState({dropDownValue: game, viewTable: true}); // Render table
         }

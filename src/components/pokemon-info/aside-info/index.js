@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
 import './aside-info.scss'
-import {pokemonAsideInfo, pokemonAsideInfoDefault} from "../../../proptypes";
+import {pokemonAsideInfo, pokemonAsideInfoDefault} from '../../../proptypes';
 
 // Redux
-import connect from "react-redux/es/connect/connect";
+import connect from 'react-redux/es/connect/connect';
 
 class AsideInfo extends Component {
 
@@ -27,7 +27,7 @@ class AsideInfo extends Component {
 
         return (
             <div className='aside-info'>
-                <audio controls={true} className='w-100 mb-3' ref='audio'><source src={cry} type="audio/ogg" /></audio>
+                <audio controls={true} className='w-100 mb-3' ref='audio'><source src={cry} type='audio/ogg' /></audio>
                 <div className='aside-info__row'><p><strong>Base experience:</strong> {this.state.pokemonAsideInfo.baseExperience}</p></div>
                 <div className='aside-info__row'><p><strong>Base happiness:</strong> {this.state.pokemonAsideInfo.baseHappiness}</p></div>
             </div>

@@ -18,11 +18,11 @@ import Error from '../../components/error/index';
 import './data-table.scss';
 
 // Constants
-import Constants from "../../helpers/constants";
+import Constants from '../../helpers/constants';
 
 // Redux
 import { connect } from 'react-redux';
-import { fillDataTable } from "../../redux/actionCreators";
+import { fillDataTable } from '../../redux/actionCreators';
 
 class DataTable extends Component {
 

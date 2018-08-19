@@ -4,9 +4,8 @@ import { map } from 'ramda';
 
 import PokemonEvolution from '../pokemon-evolution/';
 
-import './evolution-chain.scss'
-import connect from "react-redux/es/connect/connect";
-import Link from "react-router-dom/es/Link";
+import connect from 'react-redux/es/connect/connect';
+import Link from 'react-router-dom/es/Link';
 
 const EvolutionChain = ({first, second, third, game}) => {
 
@@ -18,7 +17,7 @@ const EvolutionChain = ({first, second, third, game}) => {
                 <Col xs='12' sm='12' md='12' lg='12' className='text-center'>
                     <p className='mb-0'><strong>{first.name}</strong></p>
                     <Link to={'/info/' + first.name.toLowerCase() + '/' + game} className='pokemon-link'>
-                        <img src={first.sprite} alt="Pokemon logo" className='d-block mx-auto'/>
+                        <img src={first.sprite} alt='Pokemon logo' className='d-block mx-auto'/>
                     </Link>
                     <p>This pokémon does not evolve or comes from any other pokémon.</p>
                 </Col>
@@ -31,7 +30,7 @@ const EvolutionChain = ({first, second, third, game}) => {
                     <div>
                         <p className='mb-0'><strong>{first.name}</strong></p>
                         <Link to={'/info/' + first.name.toLowerCase() + '/' + game} className='pokemon-link'>
-                            <img src={first.sprite} alt="Pokemon logo" className='d-block mx-auto'/>
+                            <img src={first.sprite} alt='Pokemon logo' className='d-block mx-auto'/>
                         </Link>
                     </div>
                 </Col>
@@ -47,7 +46,7 @@ const EvolutionChain = ({first, second, third, game}) => {
                     <div>
                         <p className='mb-0'><strong>{first.name}</strong></p>
                         <Link to={'/info/' + first.name.toLowerCase() + '/' + game} className='pokemon-link'>
-                            <img src={first.sprite} alt="Pokemon logo" className='d-block mx-auto'/>
+                            <img src={first.sprite} alt='Pokemon logo' className='d-block mx-auto'/>
                         </Link>
                     </div>
                 </Col>

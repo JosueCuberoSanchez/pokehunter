@@ -10,8 +10,8 @@ import HomeContainer from '../../components/home/home/';
 class Home extends Component {
     render () {
         return (
-            <main className="w-100">
-                <section className="container-fluid pt-4 pb-5">
+            <main className='w-100'>
+                <section className='container-fluid pt-4 pb-5'>
                         <HomeContainer />
                 </section>
             </main>

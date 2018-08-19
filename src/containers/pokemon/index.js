@@ -6,24 +6,24 @@
 // Vendor components
 import React, { Component } from 'react';
 import { Row, Col, Container} from 'reactstrap';
-import LoadingScreen from "../../components/loading-screen/";
+import LoadingScreen from '../../components/loading-screen/';
 
 // Components
 import BasicInfo from '../../components/pokemon-info/basic-info/';
-import CustomCarousel from "../../components/pokemon-info/custom-carousel";
-import AsideInfo from "../../components/pokemon-info/aside-info";
-import EvolutionChain from "../../components/pokemon-info/evolution-chain";
+import CustomCarousel from '../../components/pokemon-info/custom-carousel';
+import AsideInfo from '../../components/pokemon-info/aside-info';
+import EvolutionChain from '../../components/pokemon-info/evolution-chain';
 import Error from '../../components/error/';
 
 // SCSS
 import './pokemon.scss';
 
 // Images
-import silhouette from "../../assets/img/content/silhouette.png";
+import silhouette from '../../assets/img/content/silhouette.png';
 
 // Redux
-import connect from "react-redux/es/connect/connect";
-import * as actions from "../../redux/actionCreators/";
+import connect from 'react-redux/es/connect/connect';
+import * as actions from '../../redux/actionCreators/';
 
 export class PokemonContainer extends Component {
 
