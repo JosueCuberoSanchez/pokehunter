@@ -8,33 +8,6 @@
   min-height: 81vh;
 }
 
-.form {
-
-  &__button {
-    background-color: $background-color;
-    color: $font-color;
-    border: none;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-    width: 80px;
-  }
-
-  &__button:hover,
-  &__button:active,
-  &__button:focus {
-    background-color: $background-color !important;
-    color: $font-color !important;
-    outline: none !important;
-    box-shadow: none;
-  }
-}
-
-.border-danger::placeholder {
-  color: red;
-  opacity: 1;
-}
-
 .dropdown-col {
   border: 1px solid $border-color;
 }

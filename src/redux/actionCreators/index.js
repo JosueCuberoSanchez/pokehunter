@@ -1,6 +1,6 @@
 import * as t from "../actions/types";
 import Constants from "../../helpers/constants";
-import {beautifyLocations, fillLocationsArray, getEvolutionInfo, getPokedexLimit, getNeighbors} from "../../helpers/functions";
+import {beautifyLocations, fillLocationsArray, getEvolutionInfo, getPokedexLimit, getNeighbors, beautifyHabitat} from "../../helpers/functions";
 import Link from "react-router-dom/es/Link";
 import React from "react";
 
@@ -158,7 +158,13 @@ export const fetchPokemon = (name, game) => {
             const evolutionInfo = await getEvolutionInfo(evolutionsJSON, P);
 
             name = name.replace(/^\w/, c => c.toUpperCase());
-            const habitat = specieJSON.habitat.name.replace(/^\w/, c => c.toUpperCase());
+
+            let habitat = specieJSON.habitat;
+            if(habitat === null) {
+                habitat = 'This pokemon comes from a fossil';
+            } else {
+                habitat = beautifyHabitat(habitat.name);
+            }
 
             const neighbors = await getNeighbors(number, P);
 
@@ -175,12 +181,12 @@ export const fetchPokemon = (name, game) => {
                         types: types,
                         generation: generation,
                         description: description,
-                        locations: locations
+                        locations: locations,
+                        habitat: habitat
                     },
                     asideInfo: {
                         baseExperience: pokemonJSON.base_experience,
-                        baseHappiness: specieJSON.base_happiness,
-                        habitat: habitat
+                        baseHappiness: specieJSON.base_happiness
                     },
                     sprites: {
                         frontDefault: sprites.front_default,

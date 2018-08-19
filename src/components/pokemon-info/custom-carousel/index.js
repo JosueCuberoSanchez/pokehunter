@@ -15,30 +15,47 @@ import connect from "react-redux/es/connect/connect";
 
 const CustomCarousel = ({frontDefault, backDefault, frontShiny, backShiny}) => {
 
-        const images = [
-            {
-                original: frontDefault,
-                thumbnail: frontDefault,
-                description: 'Front default'
-            },
-            {
-                original: backDefault,
-                thumbnail: backDefault,
-                description: 'Back default'
-            },
-            {
-                original: frontShiny,
-                thumbnail: frontShiny,
-                description: 'Front shiny'
-            },
-            {
-                original: backShiny,
-                thumbnail: backShiny,
-                description: 'Back shiny'
+        function getImages() {
+            if(backDefault !== null) { // some pokemon dont have back sprites
+                return [
+                    {
+                        original: frontDefault,
+                        thumbnail: frontDefault,
+                        description: 'Front default'
+                    },
+                    {
+                        original: backDefault,
+                        thumbnail: backDefault,
+                        description: 'Back default'
+                    },
+                    {
+                        original: frontShiny,
+                        thumbnail: frontShiny,
+                        description: 'Front shiny'
+                    },
+                    {
+                        original: backShiny,
+                        thumbnail: backShiny,
+                        description: 'Back shiny'
+                    }
+                ]
+            } else {
+                return [
+                    {
+                        original: frontDefault,
+                        thumbnail: frontDefault,
+                        description: 'Front default'
+                    },
+                    {
+                        original: frontShiny,
+                        thumbnail: frontShiny,
+                        description: 'Front shiny'
+                    }
+                ]
             }
-        ];
+        }
 
-        return <ImageGallery items={images} infinite={true} autoPlay={true}/>;
+        return <ImageGallery items={getImages()} infinite={true} autoPlay={true}/>;
 
 };
 

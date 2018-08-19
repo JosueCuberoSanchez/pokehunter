@@ -8,6 +8,7 @@ export const pokemonBasicInfo = PropTypes.shape({
     weight: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     locations: PropTypes.string.isRequired,
+    habitat: PropTypes.string.isRequired,
     types: PropTypes.arrayOf(PropTypes.string).isRequired
 });
 
@@ -19,6 +20,7 @@ export const pokemonBasicInfoDefault = {
     weight: '',
     height: '',
     locations: '',
+    habitat: '',
     types: ['','']
 };
 
@@ -38,12 +40,10 @@ export const pokemonSpritesDefault = {
 
 export const pokemonAsideInfo = PropTypes.shape({
     baseExperience: PropTypes.number.isRequired,
-    baseHappiness: PropTypes.number.isRequired,
-    habitat: PropTypes.string.isRequired,
+    baseHappiness: PropTypes.number.isRequired
 });
 
 export const pokemonAsideInfoDefault = {
     baseExperience: '',
-    baseHappiness: '',
-    habitat: '',
+    baseHappiness: ''
 };

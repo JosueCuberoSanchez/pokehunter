@@ -8,7 +8,7 @@ const SearchBar = (props) => {
     return (
         <div className="row">
             <div className="col-xs-12 col-sm-6 col-md-5 col-lg-5">
-                <label htmlFor="filter">Search anything</label>
+                <label htmlFor="filter">Search on the results</label>
                 <input
                     className="form-control "
                     ref={n => input = n}

@@ -10,9 +10,6 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 import LoadingScreen from '../../components/loading-screen/';
 
-// Images
-import silhouette from '../../assets/img/content/silhouette.png';
-
 // Components
 import SearchBar from '../../components/home/search-bar/index';
 import Error from '../../components/error/index';
@@ -57,9 +54,7 @@ class DataTable extends Component {
 
         if (this.state.isLoading) {
             return (
-                <LoadingScreen loading={true} bgColor='transparent' spinnerColor='#9ee5f8' textColor='#676767' logoSrc={silhouette} text='Wait a second, searching your Pokémons...'>
-                    <div/>
-                </LoadingScreen>
+                <LoadingScreen />
             );
         } else if (this.state.error) {
             return <Error />

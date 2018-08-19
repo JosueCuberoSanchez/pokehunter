@@ -133,6 +133,7 @@ const BasicInfo = ({pokemonInfo, previous, next, game}) => {
             <div className='basic-info__row pl-4'><p><strong>Height:</strong> {pokemonInfo.height/10} m</p></div>
             <div className='basic-info__row pl-4'><p><strong>Weight:</strong> {pokemonInfo.weight/10} kg</p></div>
             <div className='basic-info__row pl-4'><p><strong>Locations:</strong> {pokemonInfo.locations}</p></div>
+            <div className='basic-info__row pl-4'><p><strong>Habitat:</strong> {pokemonInfo.habitat}</p></div>
         </div>
     )
 };

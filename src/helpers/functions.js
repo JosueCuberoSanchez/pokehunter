@@ -43,6 +43,10 @@ export function beautifyLocations(locations, game) {
     return newLocations.join(', ');
 }
 
+export function beautifyHabitat(habitat) {
+    return habitat.split('-').join(' ').replace(/^\w/, c => c.toUpperCase());
+}
+
 function getGameRegion(game) {
     let region;
     switch (game) {
