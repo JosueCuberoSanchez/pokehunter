@@ -141,10 +141,20 @@ export async function getEvolutionInfo(evolutionJSON, P) {
 
 // Get the first pokemon
 async function getFirstPokemon(evolutionJSON, P) {
-    const name = evolutionJSON.chain.species.name;
+    let name = evolutionJSON.chain.species.name;
+    name = checkPokemonForm(name);
     const speciesJSON = await P.getPokemonByName(name);
     const sprite = speciesJSON.sprites.front_default;
     return {name: name.replace(/^\w/, c => c.toUpperCase()), sprite: sprite};
+}
+
+function checkPokemonForm(name) {
+    switch (name) {
+        case 'shaymin':
+            return 'shaymin-land';
+        default:
+            return name;
+    }
 }
 
 // Get second and third evolutions

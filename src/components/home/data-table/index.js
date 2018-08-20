@@ -8,21 +8,17 @@ import React, {Component} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
-import LoadingScreen from '../../components/loading-screen/';
+import LoadingScreen from '../../loading-screen/index';
 
 // Components
-import SearchBar from '../../components/home/search-bar/index';
-import Error from '../../components/error/index';
+import SearchBar from '../search-bar/index';
+import Error from '../../error/index';
 
 // SCSS
 import './data-table.scss';
 
 // Constants
-import Constants from '../../helpers/constants';
-
-// Redux
-import { connect } from 'react-redux';
-import { fillDataTable } from '../../redux/actionCreators';
+import Constants from '../../../helpers/constants';
 
 class DataTable extends Component {
 
@@ -40,24 +36,20 @@ class DataTable extends Component {
 
     componentWillReceiveProps(nextProps) { //checks if the state change is a game change or a browser back change.
         if(this.state.game !== nextProps.game) {
-            this.setState({game: nextProps.game, pokemons: nextProps.pokemons, isLoading: nextProps.isLoading});
+            this.setState({game: nextProps.game, pokemons: nextProps.pokemons, isLoading: nextProps.isLoading, error: nextProps.error});
         } else if(this.state.pokemons !== nextProps.pokemons) { // this link vs next link
-            this.setState({pokemons: nextProps.pokemons, isLoading: nextProps.isLoading});
+            this.setState({pokemons: nextProps.pokemons, isLoading: nextProps.isLoading, error: nextProps.error});
         }
-    }
-
-    componentDidMount() {
-        this.state.fillDataTable({game: this.state.game}); // fill table
     }
 
     render() {
 
         if (this.state.isLoading) {
             return (
-                <LoadingScreen />
+                <LoadingScreen pokemon={false}/>
             );
         } else if (this.state.error) {
-            return <Error />
+            return <Error pokemon={false}/>
         }
         return (
             <div>
@@ -83,12 +75,4 @@ class DataTable extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return { game: state.dataTable.game, isLoading: state.dataTable.isLoading, error: state.dataTable.error, pokemons: state.dataTable.pokemons };
-};
-
-const mapDispatchToProps = {
-    fillDataTable
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DataTable);
+export default DataTable;

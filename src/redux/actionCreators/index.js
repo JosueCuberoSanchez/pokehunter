@@ -111,7 +111,7 @@ export const fetchPokemon = (name, game) => {
                     break;
             }
 
-            const specieJSON = await P.getPokemonSpeciesByName(name);
+            const specieJSON = await P.resource(pokemonJSON.species.url);
 
             // description
             let description;

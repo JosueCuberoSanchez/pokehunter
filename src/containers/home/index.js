@@ -6,13 +6,13 @@
 import React, {Component} from 'react';
 import { Label, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
-import DataTable from '../../../containers/data-table/index';
+import DataTable from '../../components/home/data-table/index';
 import { connect } from 'react-redux';
-import { fillDataTable } from '../../../redux/actionCreators/index';
+import { fillDataTable } from '../../redux/actionCreators/index';
 
 import './home.scss';
 
-class Home extends Component {
+class HomeContainer extends Component {
     constructor(props) {
         super(props);
 
@@ -24,7 +24,7 @@ class Home extends Component {
     }
 
     componentDidMount() { //used to check if there was a previous state for the table.
-        const prevTableState = this.props.tableState; // the previous state stored on Redux store
+        const prevTableState = this.props.tableState.game; // the previous state stored on Redux store
         if(prevTableState !== '') { // if it's null it means we come from a page refresh
             this.props.fillDataTable(prevTableState); // Redux action to fill the table with the previous data
             const dropDownValue = prevTableState.replace(/^\w/, c => c.toUpperCase()); // beautify the value
@@ -74,7 +74,8 @@ class Home extends Component {
                 </Dropdown>
                 {
                     this.state.viewTable
-                        ? <DataTable />
+                        ? <DataTable pokemons={this.props.tableState.pokemons} isLoading={this.props.tableState.isLoading}
+                                     error={this.props.tableState.error} game={this.props.tableState.game}/>
                         : null
                 }
             </Container>
@@ -100,7 +101,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-        tableState: state.dataTable.game // Get the previous history from Redux
+        tableState: state.dataTable // Get the previous history from Redux
     }
 };
 
@@ -110,4 +111,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

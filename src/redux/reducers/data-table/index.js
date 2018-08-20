@@ -3,7 +3,7 @@ import * as a from '../../actions/types';
 const INITIAL_STATE = {
     isLoading: false,
     game: '',
-    error: '',
+    error: false,
     pokemons: []
 };
 
@@ -14,7 +14,7 @@ function DataTableReducer(state = INITIAL_STATE, action) {
         case a.GET_DATA_TABLE_SUCCESS:
             return { ...state, pokemons: action.payload.pokemons, game: action.payload.game, isLoading: false }; // all that I already had but change game to action.payload and return a new object
         case a.GET_DATA_TABLE_FAILURE:
-            return { ...state, error: action.error, isLoading: false }; // all that I already had but change game to action.payload and return a new object
+            return { ...state, error: true, isLoading: false }; // all that I already had but change game to action.payload and return a new object
         default:
             return state;
     }

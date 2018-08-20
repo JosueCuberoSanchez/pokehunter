@@ -12,8 +12,6 @@ import { pokemonBasicInfo, pokemonBasicInfoDefault } from '../../../proptypes/in
 import arrowLeft from '../../../assets/img/content/arrow-left.png';
 import arrowRight from '../../../assets/img/content/arrow-right.png';
 
-// Redux
-import connect from 'react-redux/es/connect/connect';
 import Link from 'react-router-dom/es/Link';
 
 const BasicInfo = ({pokemonInfo, previous, next, game}) => {
@@ -146,13 +144,4 @@ BasicInfo.defaultProps = {
     pokemonInfo: pokemonBasicInfoDefault
 };
 
-const mapStateToProps = state => {
-    return {
-        pokemonInfo: state.pokemon.basicInfo,
-        next: state.pokemon.next,
-        previous: state.pokemon.previous,
-        game: state.pokemon.game
-    };
-};
-
-export default connect(mapStateToProps)(BasicInfo);
+export default BasicInfo;

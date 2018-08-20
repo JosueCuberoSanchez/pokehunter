@@ -17,14 +17,11 @@ const Header = ()  => {
                 <Container fluid={true}>
                     <Container>
                         <Row>
-                            <Col xs='12' sm='6' md='4' lg='3'>
+                            <Col xs='7' sm='6' md='4' lg='3'>
                                 <NavbarBrand className='mr-0' href='/'><img src={logo} alt='Pokéhunter logo' className='w-100 d-block mx-auto'/></NavbarBrand>
                             </Col>
-                            <Col xs='12' sm={{ size: 2, offset: 2 }} md={{ size: 3, offset: 5 }} lg={{ size: 3, offset: 6 }} className='align-items-center d-flex'>
-                                <ul className='d-flex justify-content-between align pl-0 mb-0'>
-                                    <NavItem>
-                                        <NavLink href='about.html'>About</NavLink>
-                                    </NavItem>
+                            <Col xs={{ size: 1, offset: 1 }} sm={{ size: 1, offset: 4 }} md={{ size: 1, offset: 7 }} lg={{ size: 1, offset: 8 }} className='align-items-center d-flex'>
+                                <ul className='pl-0 mb-0'>
                                     <NavItem>
                                         <NavLink href='https://pokeapi.co/'>API</NavLink>
                                     </NavItem>

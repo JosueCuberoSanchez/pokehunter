@@ -3,14 +3,10 @@ import React, { Component } from 'react'
 import './aside-info.scss'
 import {pokemonAsideInfo, pokemonAsideInfoDefault} from '../../../proptypes';
 
-// Redux
-import connect from 'react-redux/es/connect/connect';
-
 class AsideInfo extends Component {
 
     constructor(props){
         super(props);
-
         this.state =
             {pokemonAsideInfo: props.pokemonAsideInfo, number: props.number}
     }
@@ -43,11 +39,4 @@ AsideInfo.defaultProps = {
     pokemonAsideInfo: pokemonAsideInfoDefault
 };
 
-const mapStateToProps = state => {
-    return {
-        pokemonAsideInfo: state.pokemon.asideInfo,
-        number: state.pokemon.basicInfo.number
-    }
-};
-
-export default connect(mapStateToProps)(AsideInfo);
+export default AsideInfo;
