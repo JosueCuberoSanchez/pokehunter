@@ -13,7 +13,7 @@ const INITIAL_STATE = {
     next: ''
 };
 
-function PokemonReducer(state = INITIAL_STATE, action) {
+const PokemonReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case a.GET_POKEMON_REQUEST:
             return { ...state, isLoading: true }; // all that I already had but change game to action.payload and return a new object
@@ -27,6 +27,6 @@ function PokemonReducer(state = INITIAL_STATE, action) {
         default:
             return state;
     }
-}
+};
 
 export default PokemonReducer;

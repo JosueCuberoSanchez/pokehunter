@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     pokemons: []
 };
 
-function DataTableReducer(state = INITIAL_STATE, action) {
+const DataTableReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case a.GET_DATA_TABLE_REQUEST:
             return { ...state, isLoading: true }; // all that I already had but change game to action.payload and return a new object
@@ -18,6 +18,6 @@ function DataTableReducer(state = INITIAL_STATE, action) {
         default:
             return state;
     }
-}
+};
 
 export default DataTableReducer;

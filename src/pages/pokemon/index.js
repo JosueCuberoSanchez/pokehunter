@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 
+// Containers
 import PokemonContainer from '../../containers/pokemon/';
 
 class Pokemon extends Component {

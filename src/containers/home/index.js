@@ -6,10 +6,14 @@
 import React, {Component} from 'react';
 import { Label, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
+// Container
 import DataTable from '../../components/home/data-table/index';
+
+// Redux
 import { connect } from 'react-redux';
 import { fillDataTable } from '../../redux/actionCreators/index';
 
+// Styles
 import './home.scss';
 
 class HomeContainer extends Component {

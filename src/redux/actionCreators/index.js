@@ -1,6 +1,10 @@
+// Action types
 import * as t from '../actions/types';
+
+// Helpers
 import Constants from '../../helpers/constants';
 import {beautifyLocations, fillLocationsArray, getEvolutionInfo, getPokedexLimit, getNeighbors, beautifyHabitat} from '../../helpers/functions';
+
 import Link from 'react-router-dom/es/Link';
 import React from 'react';
 

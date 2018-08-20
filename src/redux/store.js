@@ -4,6 +4,8 @@ import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import history from '../helpers/history';
+
+// Reducer
 import reducer from './reducers/';
 
 const logger = createLogger({

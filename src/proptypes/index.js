@@ -1,3 +1,5 @@
+// Proptypes for each sub model
+
 import PropTypes from 'prop-types'
 
 export const pokemonBasicInfo = PropTypes.shape({

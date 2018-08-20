@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 
+// Containers
 import HomeContainer from '../../containers/home/';
 
 class Home extends Component {

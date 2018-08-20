@@ -1,7 +1,7 @@
 // Fill the locations for a given pokemon
 import Constants from './constants';
 
-export function fillLocationsArray(encountersJSON, game) {
+export const fillLocationsArray = (encountersJSON, game) => {
     let locations = [];
     if (encountersJSON.length === 0) {
         locations[0] = 'Location unknown';
@@ -21,10 +21,10 @@ export function fillLocationsArray(encountersJSON, game) {
             locations[0] = 'Location unknown';
     }
     return locations;
-}
+};
 
 // Beautify the locations array
-export function beautifyLocations(locations, game) {
+export const beautifyLocations = (locations, game) => {
     let newLocations = [];
     let location;
 
@@ -41,13 +41,13 @@ export function beautifyLocations(locations, game) {
     }
 
     return newLocations.join(', ');
-}
+};
 
-export function beautifyHabitat(habitat) {
+export const beautifyHabitat = (habitat) => {
     return habitat.split('-').join(' ').replace(/^\w/, c => c.toUpperCase());
-}
+};
 
-function getGameRegion(game) {
+const getGameRegion = (game) => {
     let region;
     switch (game) {
         case 'red':
@@ -87,50 +87,50 @@ function getGameRegion(game) {
             break;
     }
     return region;
-}
+};
 
 // Get the pokedex limit
-export function getPokedexLimit(game) {
+export const getPokedexLimit = (game) => {
     let limit;
     switch (game) {
         case 'red':
         case 'blue':
         case 'yellow':
-            limit = 151;
+            limit = 152;
             break;
         case 'gold':
         case 'silver':
         case 'crystal':
-            limit = 251;
+            limit = 252;
             break;
         case 'ruby':
         case 'sapphire':
         case 'firered':
         case 'leafgreen':
-            limit = 439;
+            limit = 440;
             break;
         case 'diamond':
         case 'pearl':
         case 'platinum':
         case 'heartgold':
         case 'soulsilver':
-            limit = 507;
+            limit = 508;
             break;
         case 'white':
         case 'black':
         case 'white-2':
         case 'black-2':
-            limit = 651;
+            limit = 652;
             break;
         case 'x':
         case 'y':
         case 'alpha-sapphire':
         case 'omega-ruby':
-            limit = 721;
+            limit = 722;
             break;
     }
     return limit;
-}
+};
 
 // Get the evolution info
 export async function getEvolutionInfo(evolutionJSON, P) {
@@ -148,14 +148,14 @@ async function getFirstPokemon(evolutionJSON, P) {
     return {name: name.replace(/^\w/, c => c.toUpperCase()), sprite: sprite};
 }
 
-function checkPokemonForm(name) {
+const checkPokemonForm = (name) => {
     switch (name) {
         case 'shaymin':
             return 'shaymin-land';
         default:
             return name;
     }
-}
+};
 
 // Get second and third evolutions
 async function getLastPokemons(evolutionJSON, P) {
@@ -197,7 +197,7 @@ async function getThirdPokemon(evolutionJSON, P) {
 }
 
 // Get evolution trigger
-function getEvolutionTrigger(evolution) {
+const getEvolutionTrigger = (evolution) => {
     let trigger = '';
     let level = 'up';
     let happiness = '';
@@ -232,7 +232,7 @@ function getEvolutionTrigger(evolution) {
         trigger = `Trade ${item}`;
     }
     return trigger;
-}
+};
 
 export async function getNeighbors(number, P) {
 
